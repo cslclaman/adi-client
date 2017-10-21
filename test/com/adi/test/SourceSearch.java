@@ -15,7 +15,7 @@ import java.io.IOException;
  *
  * @author Caique
  */
-public class MarshallParse {
+public class SourceSearch {
 
     /**
      * @param args the command line arguments

@@ -53,22 +53,25 @@ public class Archive extends File {
         if (!exists()){
             throw new IOException("File doesn't exist - " + getPath());
         }
-        if (length() <= 0){
-            throw new IOException("Empty file - " + getPath());
-        }
         
-        extension = getName().substring(getName().lastIndexOf("."));
-        
-        boolean validExt = false;
-        for (String ext : SUPPORTED_FILE_EXT){
-            if (extension.equalsIgnoreCase(ext)){
-                validExt = true;
-                break;
+        if (!isDirectory()){
+            if (length() <= 0){
+                throw new IOException("Empty file - " + getPath());
             }
-        }
-        
-        if (!validExt){
-            throw new IOException("File has invalid extension for ADI - " + getPath());
+
+            extension = getName().substring(getName().lastIndexOf("."));
+
+            boolean validExt = false;
+            for (String ext : SUPPORTED_FILE_EXT){
+                if (extension.equalsIgnoreCase(ext)){
+                    validExt = true;
+                    break;
+                }
+            }
+
+            if (!validExt){
+                throw new IOException("File has invalid extension for ADI - " + getPath());
+            }
         }
     }
     

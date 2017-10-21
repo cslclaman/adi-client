@@ -9,12 +9,8 @@ package com.adi.service.tags;
  *
  * @author Caique
  */
-public class AdiTagsParser {
-    public AdiTagsParser(){
-        
-    }
-    
-    public AdiTagsModel toAdiTags(String tagString){
+public abstract class AdiTagsParser {
+    public static AdiTagsModel toAdiTags(String tagString){
         AdiTagsModel model = new AdiTagsModel();
         String[] tags = tagString.split(" ");
         for (String tag : tags){
@@ -48,17 +44,19 @@ public class AdiTagsParser {
                     case "x":
                         model.addError(val);
                         break;
+                    default:
+                        break;
                 }
             }
         }
         return model;
     }
     
-    public String fromAdiTags(AdiTagsModel model){
+    public static String fromAdiTags(AdiTagsModel model){
         return model.getTagString();
     }
     
-    private boolean isValid(String tag) {
+    private static boolean isValid(String tag) {
         if (!tag.isEmpty()){
             return tag.equals("(ADI)") || tag.matches("(\\([sacipnx]?.\\))([\\(\\)a-zA-Z0-9_\\-]+)");
         } else {
@@ -66,18 +64,18 @@ public class AdiTagsParser {
         }
     }
     
-    private String getType(String tag) {
+    private static String getType(String tag) {
         int ap = tag.indexOf("(");
         return tag.substring(ap + 1, ap + 2);
     }
     
-    private String getParameter(String tag) {
+    private static String getParameter(String tag) {
         int ap = tag.indexOf("(");
         int fp = tag.indexOf(")");
         return tag.substring(ap + 2, fp);
     }
     
-    private String getValue(String tag) {
+    private static String getValue(String tag) {
         int fp = tag.indexOf(")");
         return tag.substring(fp + 1);
     }

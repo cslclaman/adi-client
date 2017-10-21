@@ -29,21 +29,23 @@ public class Configuration {
     private Source[] sources;
     private TagLists tagLists;
     
-    public Configuration(){
-        preferences = Preferences.defaultPreferences();
-        sources = new Source[]{
-            Source.defaultSource()
-        };
-        tagLists = TagLists.defaultTagLists();
+    public static Configuration defaults(){
+        return new Configuration(Preferences.defaultPreferences(), new Source[]{Source.defaultSource()}, TagLists.defaultTagLists());
+    }
+
+    private Configuration(Preferences preferences, Source[] sources, TagLists tagLists) {
+        this.preferences = preferences;
+        this.sources = sources;
+        this.tagLists = tagLists;
+    }
+    
+    public Configuration() throws IOException{
+        this(CONFIG_PATH);
     }
     
     public Configuration(String configPath) throws IOException {
         Gson gson = new Gson();
         FileReader fr;
-        
-        if (configPath == null || configPath.isEmpty()){
-            configPath = CONFIG_PATH;
-        }
         
         fr = new FileReader(configPath + "preferences.json");
         preferences = gson.fromJson(fr, Preferences.class);

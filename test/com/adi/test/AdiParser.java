@@ -19,7 +19,7 @@ public class AdiParser {
      */
     public static void main(String[] args) {
         String ts = "(ADI) (sd)2741429 (r)tlb (a)hillly_(maiwetea) (c)touhou (np)1 (p)remilia_scarlet (i)bluehair (i)dress (i)hat (i)openmouth (i)ribbon (i)shorthair (i)wings";
-        AdiTagsModel m = new AdiTagsParser().toAdiTags(ts);
+        AdiTagsModel m = AdiTagsParser.toAdiTags(ts);
         System.out.println(m.getTagString());
         System.out.println(m.getTagString(80));
         System.out.println(m.getArtistString());

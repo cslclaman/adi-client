@@ -6,7 +6,10 @@
 package com.adi.service.file;
 
 import com.adi.service.function.Hash;
+import com.adi.service.tags.AdiTagsModel;
+import com.adi.service.tags.AdiTagsParser;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -14,33 +17,59 @@ import java.net.URI;
  * @author Caique
  */
 public class Archive extends File {
+    public static final String[] SUPPORTED_FILE_EXT = new String[]{
+        "JPG", "JPEG",
+        "PNG",
+        "GIF",
+        "SWF",
+        "WEBM",
+        "MP4"
+    };
+    
     private String md5 = "";
     private String extension;
-    private String typeName;
     
-    public Archive(String pathname) {
+    public Archive(String pathname) throws IOException{
         super(pathname);
         init();
     }
 
-    public Archive(String parent, String child) {
+    public Archive(String parent, String child) throws IOException{
         super(parent, child);
         init();
     }
 
-    public Archive(File parent, String child) {
+    public Archive(File parent, String child) throws IOException{
         super(parent, child);
         init();
     }
 
-    public Archive(URI uri) {
+    public Archive(URI uri) throws IOException {
         super(uri);
         init();
     }
     
-    private void init(){
+    private void init() throws IOException {
+        if (!exists()){
+            throw new IOException("File doesn't exist - " + getPath());
+        }
+        if (length() <= 0){
+            throw new IOException("Empty file - " + getPath());
+        }
+        
         extension = getName().substring(getName().lastIndexOf("."));
         
+        boolean validExt = false;
+        for (String ext : SUPPORTED_FILE_EXT){
+            if (extension.equalsIgnoreCase(ext)){
+                validExt = true;
+                break;
+            }
+        }
+        
+        if (!validExt){
+            throw new IOException("File has invalid extension for ADI - " + getPath());
+        }
     }
     
     public String getMd5(){
@@ -53,11 +82,12 @@ public class Archive extends File {
     public String getQuery(){
         String name = getName().substring(0, getName().lastIndexOf(".")).toLowerCase();
         
-        if (name.equals(getMd5())){
+        if (name.contains(getMd5())){
             return md5;
         } else {
             if (name.startsWith("(s") || name.startsWith("(ADI)")){
-                
+                AdiTagsModel model = AdiTagsParser.toAdiTags(name);
+                return model.getSourcePost();
             } else {
                 int seq = 0;
                 String hash = "";

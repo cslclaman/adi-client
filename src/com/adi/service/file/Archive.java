@@ -26,8 +26,14 @@ public class Archive extends File {
         "MP4"
     };
     
+    private static final String SEARCH_TYPE_MD5 = "md5";
+    private static final String SEARCH_TYPE_ID = "id";
+    private static final String SEARCH_TYPE_NULL = "";
+    
     private String md5 = "";
     private String extension;
+    private String searchQuery;
+    private String searchTypeName;
     
     public Archive(String pathname) throws IOException{
         super(pathname);
@@ -50,6 +56,9 @@ public class Archive extends File {
     }
     
     private void init() throws IOException {
+        searchQuery = "";
+        searchTypeName = SEARCH_TYPE_NULL;
+        
         if (!exists()){
             throw new IOException("File doesn't exist - " + getPath());
         }
@@ -82,15 +91,28 @@ public class Archive extends File {
         return md5;
     }
     
+    public String getTypeName(){
+        if (searchTypeName.isEmpty()){
+            makeSearch();
+        }
+        return searchTypeName;
+    }
+    
     public String getQuery(){
+        if (searchQuery.isEmpty()){
+            makeSearch();
+        }
+        return searchQuery;
+    }
+    
+    private void makeSearch(){
         String name = getName().substring(0, getName().lastIndexOf(".")).toLowerCase();
         
-        if (name.contains(getMd5())){
-            return md5;
-        } else {
+        if (!name.contains(getMd5())){
             if (name.startsWith("(s") || name.startsWith("(ADI)")){
                 AdiTagsModel model = AdiTagsParser.toAdiTags(name);
-                return model.getSourcePost();
+                searchTypeName = SEARCH_TYPE_ID;
+                searchQuery = model.getSourcePost();
             } else {
                 int seq = 0;
                 String hash = "";
@@ -104,11 +126,14 @@ public class Archive extends File {
                         seq = 0;
                     }
                     if (seq == 32){
-                        return hash;
+                        searchTypeName = SEARCH_TYPE_MD5;
+                        searchQuery = hash;
                     }
                 }
             }
+        } else {
+            searchTypeName = SEARCH_TYPE_MD5;
+            searchQuery = md5;
         }
-        return md5;
     }
 }

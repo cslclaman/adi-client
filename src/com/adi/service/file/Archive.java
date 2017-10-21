@@ -6,6 +6,7 @@
 package com.adi.service.file;
 
 import com.adi.service.function.Hash;
+import com.adi.service.search.Search;
 import com.adi.service.tags.AdiTagsModel;
 import com.adi.service.tags.AdiTagsParser;
 import java.io.File;
@@ -91,14 +92,25 @@ public class Archive extends File {
         return md5;
     }
     
-    public String getTypeName(){
+    public String getQueryTypeName(){
         if (searchTypeName.isEmpty()){
             makeSearch();
         }
         return searchTypeName;
     }
     
-    public String getQuery(){
+    public int getQueryType(){
+        switch (searchTypeName){
+            case SEARCH_TYPE_MD5:
+                return Search.SEARCH_BY_MD5;
+            case SEARCH_TYPE_ID:
+                return Search.SEARCH_BY_ID;
+            default:
+                return Search.SEARCH_BY_RAW;
+        }
+    }
+    
+    public String getQueryText(){
         if (searchQuery.isEmpty()){
             makeSearch();
         }

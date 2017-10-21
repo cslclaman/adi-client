@@ -22,7 +22,7 @@ import java.net.URL;
  */
 public class Search {
     
-    public static final int SEARCH_RAW =      0;
+    public static final int SEARCH_BY_RAW =   0;
     public static final int SEARCH_BY_ID =    1;
     public static final int SEARCH_BY_TAGS =  2;
     public static final int SEARCH_BY_MD5 =   3;
@@ -45,7 +45,7 @@ public class Search {
     private int format;
 
     public Search(Source source) {
-        this.typeSearch = SEARCH_POSTS + SEARCH_RAW;
+        this.typeSearch = SEARCH_POSTS + SEARCH_BY_RAW;
         this.source = source;
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();
@@ -64,7 +64,7 @@ public class Search {
     }
     
     public Search() {
-        this.typeSearch = SEARCH_POSTS + SEARCH_RAW;
+        this.typeSearch = SEARCH_POSTS + SEARCH_BY_RAW;
         source = Source.defaultSource();
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();

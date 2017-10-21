@@ -86,7 +86,7 @@ public class Archiver {
         }
     }
 
-    public int archivesNumber(){
+    public int archivesCount(){
         return archives.size();
     }
     
@@ -106,9 +106,17 @@ public class Archiver {
         }
         it = archives.iterator();
         while (it.hasNext()){
-            if (it.next().getPath().contains(folder)){
-                it.remove();
-                count++;
+            Archive a = it.next();
+            if (removeSubfolders){
+                if (a.getPath().replace(a.getName(), "").contains(folder)){
+                    it.remove();
+                    count++;
+                }
+            } else {
+                if (a.getPath().replace(a.getName(), "").equals(folder)){
+                    it.remove();
+                    count++;
+                }
             }
         }
         return count;

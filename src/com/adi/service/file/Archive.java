@@ -68,7 +68,7 @@ public class Archive extends File {
                 throw new IOException("Empty file - " + getPath());
             }
 
-            extension = getName().substring(getName().lastIndexOf("."));
+            extension = getName().substring(getName().lastIndexOf(".") + 1);
 
             boolean validExt = false;
             for (String ext : SUPPORTED_FILE_EXT){

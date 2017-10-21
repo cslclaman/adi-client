@@ -1,3 +1,4 @@
+<html>
 <p>Sistema de categorização de imagens de animes baixadas de imageboards como Danbooru.</p>
 
 <p><b>Requisitos (ordem de prioridade):</b></p>
@@ -16,3 +17,4 @@
 	<p>O sistema deve permitir a exibição de imagens/vídeos e busca interativa de tags, independente dos outros sistemas (não precisa acessar a base de dados diretamente, pode usar a API).</p>
 	<p><i>Implementação: Sistema WEB (exemplos: Danbooru, Shuushuu).</i></p>
 </li>
+</html>

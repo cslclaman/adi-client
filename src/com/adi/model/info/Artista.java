@@ -8,7 +8,7 @@ package com.adi.model.info;
 import com.adi.data.entity.AdiTag;
 
 /**
- *
+ * 
  * @author Caique
  */
 public class Artista extends Info {

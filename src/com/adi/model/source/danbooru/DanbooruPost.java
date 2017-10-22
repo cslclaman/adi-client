@@ -10,7 +10,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 /**
- *
+ * Representa um post do Danbooru2, conforme retornado pela API.
+ * <br>Inclui ID, data de criação, MD5, classif. etária, dimensões e URL da imagem, tag strings e flags, dentre outros dados.
  * @author Caique
  */
 public class DanbooruPost implements DanbooruModel {
@@ -310,6 +311,10 @@ public class DanbooruPost implements DanbooruModel {
         return !banned && !deleted;
     }
     
+    /**
+     * 
+     * @return "DanbooruPost" e ID, MD5, URL e tag String geral.
+     */
     @Override
     public String toString(){
         return "DanbooruPost " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
@@ -321,14 +326,6 @@ public class DanbooruPost implements DanbooruModel {
         } else {
             return tagString.split(" ");
         }
-    }
-
-    @Override
-    public boolean isSourceSupported(String source) {
-        for (String s : SUPPORT){
-            if (s.equals(source)) return true;
-        }
-        return false;
     }
 
     @Override

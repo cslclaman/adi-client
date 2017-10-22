@@ -7,7 +7,6 @@ package com.adi.model.source.danbooru;
 
 import com.adi.model.source.DanbooruModel;
 import com.google.gson.annotations.SerializedName;
-import java.util.Date;
 
 /**
  * Representa um post do Danbooru2, conforme retornado pela API.
@@ -19,7 +18,7 @@ public class DanbooruPost implements DanbooruModel {
     private int id;
     
     @SerializedName(value = "created_at", alternate = "created-at")
-    private Date createdAt;
+    private String createdAt;
     
     private String source;
     
@@ -67,7 +66,7 @@ public class DanbooruPost implements DanbooruModel {
     private int tagCount;
     
     @SerializedName(value = "updated_at", alternate = "updated-at")
-    private Date updatedAt;
+    private String updatedAt;
     
     @SerializedName(value = "is_banned", alternate = "is-banned")
     private boolean banned;
@@ -95,11 +94,11 @@ public class DanbooruPost implements DanbooruModel {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
-
-    public void setCreatedAt(Date createdAt) {
+    
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -235,11 +234,11 @@ public class DanbooruPost implements DanbooruModel {
         this.tagCount = tagCount;
     }
 
-    public Date getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 

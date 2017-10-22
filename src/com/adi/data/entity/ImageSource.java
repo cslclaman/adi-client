@@ -5,6 +5,7 @@
  */
 package com.adi.data.entity;
 
+import com.adi.instance.Configuration;
 import com.adi.instance.model.Source;
 import com.adi.model.source.danbooru.DanbooruPost;
 import java.io.Serializable;
@@ -31,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * Classe que representa a origem de uma imagem {@link Image}. Uma imagem pode ter de 0 a N origens, mas toda origem vai ter uma imagem.
+ * <br>A origem guarda dados do Post (em imageboards danbooru-like) ou da origem, como ID, data de envio, tags, status (deletada, offline, ativa) e endereço.
  * @author Caique
  */
 @Entity
@@ -108,6 +110,10 @@ public class ImageSource implements Serializable {
     @ManyToOne(optional = false)
     private Image image;
 
+    /**
+     * Cria uma instância com todos os dados inicializados como zero ou nulo.
+     * <br>Dados que podem ser nulos são inicializados como null, outros inicializados como vazios ou zero (exceto flags, que são TRUE).
+     */
     public ImageSource() {
         sourceName = "";
         sourceId = "";
@@ -124,6 +130,12 @@ public class ImageSource implements Serializable {
         rating = null;
     }
 
+    /**
+     * Cria uma instância a partir de determinado DanbooruPost e Origem.
+     * Todos os dados são inicializados a partir desses dois.
+     * @param post DanbooruPost
+     * @param source Source (conforme {@link Configuration#getSources()})
+     */
     public ImageSource(DanbooruPost post, Source source){
         sourceName = source.getName();
         sourceId = String.valueOf(post.getId());

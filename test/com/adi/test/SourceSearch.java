@@ -22,7 +22,7 @@ public class SourceSearch {
      */
     public static void main(String[] args) {
         Search search = new Search(Source.defaultSource());
-        //search.setTypeSearch(Search.SEARCH_POSTS + Search.SEARCH_BY_ID);
+        //search.setSearchType(Search.SEARCH_POSTS + Search.SEARCH_BY_ID);
         search.setQuery("tags=id:1500000");
         //search.setFormat(Search.FORMAT_XML);
         try {

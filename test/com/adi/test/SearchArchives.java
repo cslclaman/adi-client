@@ -11,6 +11,7 @@ import com.adi.model.source.danbooru.DanbooruPost;
 import com.adi.service.file.Archive;
 import com.adi.service.function.Archiver;
 import com.adi.service.search.Search;
+import com.adi.service.search.SearchTypeInstance;
 import java.io.IOException;
 
 /**
@@ -28,7 +29,7 @@ public class SearchArchives {
         }, true);*/
         for (Archive a : archiver.getArchiveList()){
             Search search = new Search(conf.getDefaultSource());
-            search.setTypeSearch(Search.SEARCH_POSTS + a.getQueryType());
+            search.setSearchType(SearchTypeInstance.POSTS, a.getQueryTypeParameter());
             search.setQuery(a.getQueryText());
             try {
                 search.search();

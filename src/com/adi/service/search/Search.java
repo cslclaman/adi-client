@@ -97,7 +97,7 @@ public class Search {
         }
     }
     
-    public void setTypeSearch(SearchTypeInstance typeInstance, SearchTypeParameter typeParam) {
+    public void setSearchType(SearchTypeInstance typeInstance, SearchTypeParameter typeParam) {
         this.typeInstance = typeInstance;
         this.typeParam = typeParam;
         

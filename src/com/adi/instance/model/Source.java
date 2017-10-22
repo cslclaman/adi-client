@@ -70,7 +70,7 @@ public class Source {
      * Retorna se a origem está ativa (site online, liberado)
      * @return true
      */
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 
@@ -82,7 +82,7 @@ public class Source {
      * Retorna se o site possui API e se ela está ativa/aceitando pedidos
      * @return true
      */
-    public Boolean getApiActive() {
+    public Boolean isApiActive() {
         return apiActive;
     }
 

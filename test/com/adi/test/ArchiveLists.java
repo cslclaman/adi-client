@@ -6,11 +6,9 @@
 package com.adi.test;
 
 import com.adi.instance.Configuration;
-import com.adi.instance.model.Preferences;
-import com.adi.service.file.Archive;
-import com.adi.service.function.Archiver;
+import com.adi.service.file.file.Archive;
+import com.adi.service.file.Archiver;
 import java.io.IOException;
-import java.util.List;
 
 /**
  *

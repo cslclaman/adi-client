@@ -3,9 +3,9 @@
  * Copyright C.S.L. ClaMAN 2017
  * This code is provided "as is". Modify this thing under your responsability.
  */
-package com.adi.service.function;
+package com.adi.service.file;
 
-import com.adi.service.file.Archive;
+import com.adi.service.file.file.Archive;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;

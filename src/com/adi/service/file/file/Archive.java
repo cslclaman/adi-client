@@ -3,7 +3,7 @@
  * Copyright C.S.L. ClaMAN 2017
  * This code is provided "as is". Modify this thing under your responsability.
  */
-package com.adi.service.file;
+package com.adi.service.file.file;
 
 import com.adi.service.function.Hash;
 import com.adi.service.search.Search;

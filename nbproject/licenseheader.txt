@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}ADI 6 Project
+${licensePrefix}Copyright C.S.L. ClaMAN 2017
+${licensePrefix}This code is provided "as is". Modify this thing under your responsability.
+<#if licenseLast??>
+${licenseLast}
+</#if>

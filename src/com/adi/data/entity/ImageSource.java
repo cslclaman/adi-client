@@ -148,7 +148,7 @@ public class ImageSource implements Serializable {
             uploadDate = null;
         }
         md5 = post.getMd5();
-        fileSize = post.getFileSize() == 0 ? null : post.getFileSize();
+        fileSize = post.getFileSize();
         tagString = post.getTagString();
         sourceOffline = !source.isActive();
         imageDeleted = post.isDeleted();
@@ -318,6 +318,6 @@ public class ImageSource implements Serializable {
 
     @Override
     public String toString() {
-        return sourceName + " " + sourceId;
+        return sourceName + " " + sourceId + " - " + md5;
     }
 }

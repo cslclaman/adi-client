@@ -103,10 +103,6 @@ public class Archive extends File {
         }
         
         if (!isDirectory()){
-            if (length() <= 0){
-                throw new IOException("Empty file - " + getPath());
-            }
-
             extension = getName().substring(getName().lastIndexOf(".") + 1);
 
             boolean validExt = false;

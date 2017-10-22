@@ -310,40 +310,16 @@ public class DanbooruPost implements DanbooruModel {
         return !banned && !deleted;
     }
     
-    /*
     @Override
     public String toString(){
         return "DanbooruPost " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
-    }*/
-
-    @Override
-    public String toString() {
-        return "id=" + id + 
-                "\ncreated_at=" + createdAt + 
-                "\nsource=" + source + 
-                "\nmd5=" + md5 + 
-                "\nrating=" + rating + 
-                "\nimage_width=" + imageWidth + 
-                "\nimage_height=" + imageHeight + 
-                "\ntag_string=" + tagString + 
-                "\nfile_ext=" + fileExt + 
-                "\ntag_count_general=" + tagCountGeneral +
-                "\nfile_size=" + fileSize + 
-                "\nis_pending=" + pending + 
-                "\nis_flagged=" + flagged + 
-                "\nis_deleted=" + deleted + 
-                "\ntag_count=" + tagCount + 
-                "\nupdated_at=" + updatedAt +
-                "\nis_banned=" + banned + 
-                "\nfile_url=" + fileUrl +
-                "\n";
     }
-    
-    public String[] deserialize(String tagString) {
+
+    private static String[] deserialize(String tagString) {
         if (tagString.isEmpty()){
             return new String[0];
         } else {
-            return tagString.split(" ", -1);
+            return tagString.split(" ");
         }
     }
 

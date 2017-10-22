@@ -310,6 +310,10 @@ public class DanbooruPost implements DanbooruModel {
         return !banned && !deleted;
     }
     
+    public boolean isCensored(){
+        return tagStringGeneral.contains("loli") || tagStringGeneral.contains("shota");
+    }
+    
     /**
      * 
      * @return "DanbooruPost" e ID, MD5, URL e tag String geral.

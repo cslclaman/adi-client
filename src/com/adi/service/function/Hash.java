@@ -13,12 +13,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
+ * Classe manipuladora de funções HASH e Checksum
  * @author Caique
  */
-public class Hash {
+public abstract class Hash {
     private static MessageDigest md;
     
+    /**
+     * Retorna hash MD5 a partir de um arquivo.
+     * @param file Arquivo de entrada
+     * @return String com hash calculada ou String vazia em caso de erro.
+     */
     public static String md5(File file) {
         String hash = "";
         try {
@@ -29,6 +34,11 @@ public class Hash {
         return hash;
     }
     
+    /**
+     * Retorna hash MD5 a partir de uma String.
+     * @param string String de entrada
+     * @return String com hash calculada ou String vazia em caso de erro.
+     */
     public static String md5(String string) {
         return md5frombytes(string.getBytes());
     }

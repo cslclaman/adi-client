@@ -30,6 +30,10 @@ public class Source {
     private String dateFormat;
     private String dateLocale;
 
+    /**
+     * Nome da Source
+     * @return "Danbooru"
+     */
     public String getName() {
         return name;
     }
@@ -38,6 +42,10 @@ public class Source {
         this.name = name;
     }
 
+    /**
+     * ID (sigla) da source, idêntica à usada na tag (s).
+     * @return "d"
+     */
     public String getId() {
         return id;
     }
@@ -46,6 +54,10 @@ public class Source {
         this.id = id;
     }
 
+    /**
+     * Nome do tipo da source (sistema).
+     * @return "Danbooru2"
+     */
     public String getType() {
         return type;
     }
@@ -54,6 +66,10 @@ public class Source {
         this.type = type;
     }
 
+    /**
+     * Retorna se a origem está ativa (site online, liberado)
+     * @return true
+     */
     public Boolean getActive() {
         return active;
     }
@@ -62,6 +78,10 @@ public class Source {
         this.active = active;
     }
 
+    /**
+     * Retorna se o site possui API e se ela está ativa/aceitando pedidos
+     * @return true
+     */
     public Boolean getApiActive() {
         return apiActive;
     }
@@ -70,6 +90,10 @@ public class Source {
         this.apiActive = apiActive;
     }
 
+    /**
+     * URL para visualização do site/URL base
+     * @return "http://danbooru.donmai.us/posts/"
+     */
     public String getHtmlUrl() {
         return htmlUrl;
     }
@@ -78,6 +102,10 @@ public class Source {
         this.htmlUrl = htmlUrl;
     }
 
+    /**
+     * URL base de obtenção de arquivos (ex: dataUrl + post.fileUrl)
+     * @return "http://hijiribe.donmai.us"
+     */
     public String getDataUrl() {
         return dataUrl;
     }
@@ -86,6 +114,10 @@ public class Source {
         this.dataUrl = dataUrl;
     }
 
+    /**
+     * URL direta de arquivos (ex: fileUrl + archive.name)
+     * @return "http://hijiribe.donmai.us/cached/data/"
+     */
     public String getFileUrl() {
         return fileUrl;
     }
@@ -94,6 +126,10 @@ public class Source {
         this.fileUrl = fileUrl;
     }
 
+    /**
+     * URL para requisições da API.
+     * @return "http://hijiribe.donmai.us/"
+     */
     public String getApiUrl() {
         return apiUrl;
     }
@@ -102,6 +138,10 @@ public class Source {
         this.apiUrl = apiUrl;
     }
 
+    /**
+     * Retorna os tipos de arquivo que a API retorna (XML/JSON)
+     * @return Lista com tipos de arquivos aceitos
+     */
     public String[] getApiTypeSuport() {
         return apiTypeSuport;
     }
@@ -110,6 +150,10 @@ public class Source {
         this.apiTypeSuport = apiTypeSuport;
     }
 
+    /**
+     * Retorna os tipos de pesquisas que a API aceita
+     * @return Lista com tipos de pesquisas possíveis
+     */
     public String[] getApiQuerySuport() {
         return apiQuerySuport;
     }
@@ -118,6 +162,10 @@ public class Source {
         this.apiQuerySuport = apiQuerySuport;
     }
 
+    /**
+     * Retorna string relativa ao formato JSON, se a API suportar.
+     * @return "posts.json?"
+     */
     public String getPostsBaseJson() {
         return postsBaseJson;
     }
@@ -126,6 +174,10 @@ public class Source {
         this.postsBaseJson = postsBaseJson;
     }
 
+    /**
+     * Retorna string relativa ao formato XML, se a API suportar.
+     * @return "posts.xml?"
+     */
     public String getPostsBaseXML() {
         return postsBaseXML;
     }
@@ -134,6 +186,10 @@ public class Source {
         this.postsBaseXML = postsBaseXML;
     }
 
+    /**
+     * Retorna String do URL básico de API, dando preferência ao JSON. 
+     * @return {@link #getPostsBaseJson()}, {@link #getPostsBaseXML()} ou String vazia caso não haja suporte
+     */
     public String getPostsBase(){
         if (supportJson()){
             return postsBaseJson;
@@ -146,6 +202,10 @@ public class Source {
         }
     }
     
+    /**
+     * Retorna String com comando básico para pesquisar Posts por tags
+     * @return "tags="
+     */
     public String getPostsTagsQuery() {
         return postsTagsQuery;
     }
@@ -154,6 +214,10 @@ public class Source {
         this.postsTagsQuery = postsTagsQuery;
     }
 
+    /**
+     * Retorna String com comando básico para pesquisar Posts por ID
+     * @return "tags=id:"
+     */
     public String getPostsIdQuery() {
         return postsIdQuery;
     }
@@ -162,6 +226,10 @@ public class Source {
         this.postsIdQuery = postsIdQuery;
     }
 
+    /**
+     * Retorna String com comando básico para pesquisar Posts por MD5
+     * @return "tags=md5:"
+     */
     public String getPostsMd5Query() {
         return postsMd5Query;
     }
@@ -170,6 +238,11 @@ public class Source {
         this.postsMd5Query = postsMd5Query;
     }
 
+    /**
+     * Retorna formato da string de data usado pela API.
+     * <br>Se o parser não formatar automaticamente, use essa string para formatar.
+     * @return "yyyy-MM-dd'T'HH:mm:ssXXX"
+     */
     public String getDateFormat() {
         return dateFormat;
     }
@@ -178,6 +251,11 @@ public class Source {
         this.dateFormat = dateFormat;
     }
 
+    /**
+     * Retorna local de data usado pela API, a ser usado ao formatar data.
+     * <br>Padrão: EN.
+     * @return "en"
+     */
     public String getDateLocale() {
         return dateLocale;
     }
@@ -186,6 +264,10 @@ public class Source {
         this.dateLocale = dateLocale;
     }
     
+    /**
+     * Retorna TRUE se a API recebe/envia JSON como formato de dados.
+     * @return TRUE se JSON, senão FALSE
+     */
     public boolean supportJson(){
         for (String s : apiTypeSuport){
             if (s.equals("json")){
@@ -195,6 +277,10 @@ public class Source {
         return false;
     }
     
+    /**
+     * Retorna TRUE se a API recebe/envia XML como formato de dados.
+     * @return TRUE se XML, senão FALSE
+     */
     public boolean supportXML(){
         for (String s : apiTypeSuport){
             if (s.equals("xml")){
@@ -204,6 +290,10 @@ public class Source {
         return false;
     }
     
+    /**
+     * Retorna TRUE se a API pesquisa posts (ou coisa parecida).
+     * @return TRUE se pesquisa Posts, senão FALSE
+     */
     public boolean searchesPosts(){
         for (String s : apiQuerySuport){
             if (s.equals("posts")){
@@ -213,6 +303,10 @@ public class Source {
         return false;
     }
     
+    /**
+     * Retorna TRUE se a API pesquisa tags (ou coisa parecida).
+     * @return TRUE se pesquisa Tags, senão FALSE
+     */
     public boolean searchesTags(){
         for (String s : apiQuerySuport){
             if (s.equals("tags")){

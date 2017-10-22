@@ -339,11 +339,11 @@ public class DanbooruPost implements DanbooruModel {
                 "\n";
     }
     
-    public String[] deserialize(String tagString) {
+    private static String[] deserialize(String tagString) {
         if (tagString.isEmpty()){
             return new String[0];
         } else {
-            return tagString.split(" ", -1);
+            return tagString.split(" ");
         }
     }
 

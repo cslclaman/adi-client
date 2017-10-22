@@ -231,9 +231,8 @@ public class Image implements Serializable {
             if (!(obj instanceof Image)){
                 return false;
             } else {
-                Image a = this;
-                Image b = (Image)obj;
-                return (a.md5.equals(md5));
+                Image ins = (Image)obj;
+                return (this.md5.equals(ins.md5));
             }
         }
     }

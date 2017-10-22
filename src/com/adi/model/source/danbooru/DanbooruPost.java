@@ -319,7 +319,6 @@ public class DanbooruPost implements DanbooruModel {
     public String toString(){
         return "DanbooruPost " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
     }
-    
 
     private static String[] deserialize(String tagString) {
         if (tagString.isEmpty()){

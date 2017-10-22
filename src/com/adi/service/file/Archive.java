@@ -100,6 +100,9 @@ public class Archive extends File {
     }
     
     public int getQueryType(){
+        if (searchTypeName.isEmpty()){
+            makeSearch();
+        }
         switch (searchTypeName){
             case SEARCH_TYPE_MD5:
                 return Search.SEARCH_BY_MD5;
@@ -127,20 +130,26 @@ public class Archive extends File {
                 searchQuery = model.getSourcePost();
             } else {
                 int seq = 0;
-                String hash = "";
+                StringBuilder hash = new StringBuilder();
 
                 for (char c : name.toCharArray()){
                     if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')){
-                        hash = hash + c;
+                        hash.append(c);
                         seq ++;
                     } else {
-                        hash = "";
+                        hash = new StringBuilder();
                         seq = 0;
                     }
                     if (seq == 32){
-                        searchTypeName = SEARCH_TYPE_MD5;
-                        searchQuery = hash;
+                        break;
                     }
+                }
+                
+                searchTypeName = SEARCH_TYPE_MD5;
+                if (seq == 32){
+                    searchQuery = hash.toString();
+                } else {
+                    searchQuery = md5;
                 }
             }
         } else {

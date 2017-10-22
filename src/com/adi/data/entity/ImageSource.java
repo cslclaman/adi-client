@@ -5,9 +5,14 @@
  */
 package com.adi.data.entity;
 
+import com.adi.instance.model.Source;
+import com.adi.model.source.danbooru.DanbooruPost;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,73 +42,109 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ImageSource implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @Column(name = "source_name")
     private String sourceName;
+    
     @Basic(optional = false)
     @Column(name = "source_id")
     private String sourceId;
+    
     @Column(name = "post_url")
     private String postUrl;
+    
     @Column(name = "file_url")
     private String fileUrl;
+    
     @Column(name = "upload_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
+    
     @Column(name = "md5")
     private String md5;
+    
     @Basic(optional = false)
     @Column(name = "file_size")
     private long fileSize;
+    
     @Column(name = "tag_string")
     private String tagString;
+    
     @Basic(optional = false)
     @Column(name = "source_offline")
     private boolean sourceOffline;
+    
     @Basic(optional = false)
     @Column(name = "image_deleted")
     private boolean imageDeleted;
+    
     @Basic(optional = false)
     @Column(name = "image_censored")
     private boolean imageCensored;
+    
     @Basic(optional = false)
     @Column(name = "image_banned")
     private boolean imageBanned;
+    
     @Column(name = "rating")
     private String rating;
+    
     @JoinTable(name = "source_tags", joinColumns = {
         @JoinColumn(name = "image_source", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "tag", referencedColumnName = "id")})
     @ManyToMany
     private List<Tag> tagList;
+    
     @OneToMany(mappedBy = "primarySource")
     private List<Image> imageList;
+    
     @JoinColumn(name = "image", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Image image;
 
     public ImageSource() {
+        sourceName = "";
+        sourceId = "";
+        postUrl = null;
+        fileUrl = null;
+        uploadDate = null;
+        md5 = null;
+        fileSize = 0;
+        tagString = null;
+        sourceOffline = true;
+        imageDeleted = true;
+        imageCensored = true;
+        imageBanned = true;
+        rating = null;
     }
 
-    public ImageSource(Integer id) {
-        this.id = id;
+    public ImageSource(DanbooruPost post, Source source){
+        sourceName = source.getName();
+        sourceId = String.valueOf(post.getId());
+        postUrl = source.getHtmlUrl() + post.getId();
+        fileUrl = post.getFileUrl();
+        String locale = source.getDateLocale().isEmpty() ? "en" : source.getDateLocale();
+        try {
+            uploadDate = new SimpleDateFormat(source.getDateFormat(), Locale.forLanguageTag(locale)).parse(post.getCreatedAt());
+        } catch (ParseException ex) {
+            uploadDate = null;
+        }
+        md5 = post.getMd5();
+        fileSize = post.getFileSize() == 0 ? null : post.getFileSize();
+        tagString = post.getTagString();
+        sourceOffline = !source.isActive();
+        imageDeleted = post.isDeleted();
+        imageCensored = post.isCensored();
+        imageBanned = post.isBanned();
+        rating = post.getRating();
     }
-
-    public ImageSource(Integer id, String sourceName, String sourceId, long fileSize, boolean sourceOffline, boolean imageDeleted, boolean imageCensored, boolean imageBanned) {
-        this.id = id;
-        this.sourceName = sourceName;
-        this.sourceId = sourceId;
-        this.fileSize = fileSize;
-        this.sourceOffline = sourceOffline;
-        this.imageDeleted = imageDeleted;
-        this.imageCensored = imageCensored;
-        this.imageBanned = imageBanned;
-    }
-
+    
     public Integer getId() {
         return id;
     }
@@ -250,21 +291,21 @@ public class ImageSource implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ImageSource)) {
+    public boolean equals(Object obj) {
+        if (obj == null){
             return false;
+        } else {
+            if (!(obj instanceof ImageSource)){
+                return false;
+            } else {
+                ImageSource ins = (ImageSource)obj;
+                return (this.sourceName.equals(ins.sourceName) && this.sourceId.equals(ins.sourceId));
+            }
         }
-        ImageSource other = (ImageSource) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override
     public String toString() {
-        return "com.adi.entity.ImageSource[ id=" + id + " ]";
+        return sourceName + " " + sourceId;
     }
-    
 }

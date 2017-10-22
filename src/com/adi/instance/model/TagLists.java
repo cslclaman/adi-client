@@ -8,7 +8,7 @@ package com.adi.instance.model;
 import java.util.Arrays;
 
 /**
- *
+ * Representa listas de tags usadas para definições de classificação etária.
  * @author Caique
  */
 public class TagLists {
@@ -41,6 +41,13 @@ public class TagLists {
         this.tagsPFNV = tagsPFNV;
     }
     
+    /**
+     * Carrega listas com as tags padrão para classificação etária.
+     * <br><b>TagsQAC:</b> Referentes a cenas provocativas, mas sem nudez ou coisas explícitas.
+     * <br><b>TagsOPP:</b> Contém nudez e/ou atos implícitos/sugestivos.
+     * <br><b>TagsPFNV:</b> Aplicam-se a imagens eróticas/pornográficas, cenas explícitas ou de conteúdo extremo em geral.
+     * @return TagLists carregadas.
+     */
     public static TagLists defaultTagLists() {
         TagLists t = new TagLists();
         
@@ -80,9 +87,13 @@ public class TagLists {
         return t;
     }
 
+    /**
+     * Retorna o número de tags em cada lista.
+     * @return "Tag Lists: X tags QAC, Y tags OPP, Z tags PFNV"
+     */
     @Override
     public String toString() {
-        return "TagLists{" + "tagsQAC=" + Arrays.toString(tagsQAC) + ", tagsOPP=" + Arrays.toString(tagsOPP) + ", tagsPFNV=" + Arrays.toString(tagsPFNV) + '}';
+        return "Tag Lists: " + tagsQAC.length + " tags QAC, " + tagsOPP.length + " tags OPP, " + tagsPFNV.length + " tags PFNV";
     }
     
     

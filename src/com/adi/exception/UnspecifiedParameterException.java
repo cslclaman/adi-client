@@ -6,7 +6,7 @@
 package com.adi.exception;
 
 /**
- *
+ * Exceção lançada quando um parâmetro/atributo obrigatório não foi definido corretamente. 
  * @author Caique
  */
 public class UnspecifiedParameterException extends Throwable {

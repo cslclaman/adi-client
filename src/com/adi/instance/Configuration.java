@@ -15,12 +15,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Classe de agrupamento de configurações, preferências e variáveis do sistema (ADI).
+ * <br>Classe responsável por carregar, salvar e manipular configurações diversas.
+ * <br>Também carrega configurações padrão e cria pastas padrões do sistema.
  * @author Caique
  */
 public class Configuration {
-    
+    /**
+     * Caminho da pasta raiz das configurações e pastas padrão do sistema.
+     * <br>Costuma ficar em <code>USUÁRIO/adi</code>
+     */
     public static final String LOCAL_PATH = System.getProperty("user.home") + File.separator + "adi" + File.separator;
+    
+    /**
+     * Caminho da pasta específica de preferências do usuário/computador (Instância).
+     * <br>Costuma ficar em <code>USUÁRIO/adi/instance</code>
+     * <br>Contém os arquivos:
+     * <ul>
+     * <li><code>preferences.json</code> - lista preferências alteráveis do sistema como pastas de entrada e origem padrão</li>
+     * <li><code>sources.json</code> - lista origens e endereços/métodos específicos de cada API</li>
+     * <li><code>tagLists.json</code> - lista tags responsáveis por classificação etária automática</li>
+     * </ul>
+     */
     public static final String CONFIG_PATH = LOCAL_PATH + "instance" + File.separator;
     
     private final static Logger LOGGER = Logger.getLogger(Configuration.class.getName());
@@ -29,6 +45,11 @@ public class Configuration {
     private Source[] sources;
     private TagLists tagLists;
     
+    /**
+     * Gera uma instância Configuration com configurações padrão.
+     * <br>Carrega as preferências padrão do sistema, juntamente com uma única origem (Danbooru) e tagLists padrão.
+     * @return Configurações padrão do sistema.
+     */
     public static Configuration defaults(){
         return new Configuration(Preferences.defaultPreferences(), new Source[]{Source.defaultSource()}, TagLists.defaultTagLists());
     }
@@ -39,10 +60,19 @@ public class Configuration {
         this.tagLists = tagLists;
     }
     
+    /**
+     * Carrega as configurações no caminho padrão (veja <code>CONFIG_PATH</code>
+     * @throws IOException Em caso de erro na criação do leitor de arquivos.
+     */
     public Configuration() throws IOException{
         this(CONFIG_PATH);
     }
     
+    /**
+     * Carrega as configurações no caminho especificado.
+     * @param configPath Caminho personalizado onde estão as configurações.
+     * @throws IOException Em caso de erro na criação do leitor de arquivos.
+     */
     public Configuration(String configPath) throws IOException {
         Gson gson = new Gson();
         FileReader fr;
@@ -60,6 +90,9 @@ public class Configuration {
         fr.close();
     }
     
+    /**
+     * Atualiza as preferências ao reler o arquivo de origem.
+     */
     public void reloadPreferences(){
         try {
             FileReader fr = new FileReader(CONFIG_PATH + "preferences.json");
@@ -69,6 +102,9 @@ public class Configuration {
         }
     }
     
+    /**
+     * Atualiza as Sources ao reler o arquivo de origem.
+     */
     public void reloadSources(){
         try {
             FileReader fr = new FileReader(CONFIG_PATH + "sources.json");
@@ -78,6 +114,9 @@ public class Configuration {
         }
     }
     
+    /**
+     * Atualiza as TagLists ao reler o arquivo de origem.
+     */
     public void reloadTagLists(){
         try {
             FileReader fr = new FileReader(CONFIG_PATH + "tagLists.json");
@@ -95,6 +134,11 @@ public class Configuration {
         return sources;
     }
 
+    /**
+     * Pesquisa por nome uma source registrada nas configurações (case insensitive)
+     * @param name Nome a pesquisar (ex. Danbooru, Gelbooru).
+     * @return Source que tenha o nome informado ou null se não encontrar.
+     */
     public Source getSourceByName(String name){
         for (Source s : sources){
             if (s.getName().equalsIgnoreCase(name)){
@@ -104,6 +148,11 @@ public class Configuration {
         return null;
     }
     
+    /**
+     * Pesquisa por id (sigla) uma source registrada nas configurações (case insensitive)
+     * @param id id a pesquisar (ex. d, g) 
+     * @return Source que tenha o ID informado ou null se não encontrar.
+     */
     public Source getSourceById(String id){
         for (Source s : sources){
             if (s.getId().equalsIgnoreCase(id)){
@@ -113,6 +162,11 @@ public class Configuration {
         return null;
     }
     
+    /**
+     * Retorna a source padrão conforme definida nas preferências
+     * <br>Pesquisa source que tenha o nome igual ao definido na classe Preferences.
+     * @return Source padrão
+     */
     public Source getDefaultSource(){
         return getSourceByName(preferences.getDefaultSource());
     }
@@ -133,6 +187,11 @@ public class Configuration {
         this.tagLists = tagLists;
     }
     
+    /**
+     * Salva as configurações atuais e sobrescreve arquivos de configuração existentes.
+     * <br>Se não existirem, cria as pastas e subpastas necessárias,conforme caminho padrão (vide <code>CONFIG_PATH</code>
+     * @throws IOException Caso ocorra algum erro ao criar/recriar arquivos e escrever dados.
+     */
     public void saveConfiguration() throws IOException {
         FileWriter fw;
         Gson gson = new Gson();

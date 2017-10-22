@@ -15,7 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Classe que armazena as preferências comuns do sistema.
+ * <br>Inclui tema visual, source padrão e pastas de leitura/armazenamento de imagens
  * @author Caique
  */
 public class Preferences {
@@ -108,6 +109,20 @@ public class Preferences {
         this.outputCopies = outputCopies;
     }
     
+    /**
+     * Preferências padrão:
+     * <ul>
+     * <li>Ident (identificação do sistema): <code>HOST/USUARIO</code> (ou <code>Localhost/USUARIO</code>)</li>
+     * <li>Version (versão do sistema): <code>1</code></li>
+     * <li>Theme (tema visual): <code>Metal</code></li>
+     * <li>Source padrão: <code>Danbooru</code></li>
+     * <li>Pastas de entrada: <code>PASTA_DO_USUÁRIO/default_input</code> (cria se não existir)</li>
+     * <li>Pastas de saída: <code>PASTA_DO_USUÁRIO/default_output</code> (cria se não existir)</li>
+     * <li>Pastas de backup do BD: <code>PASTA_DO_USUÁRIO/default_dbbackup</code> (cria se não existir)</li>
+     * <li>Pastas de cópia da saída: Nenhuma</li>
+     * </ul>
+     * @return preferências padrão
+     */
     public static Preferences defaultPreferences(){
         Preferences p = new Preferences();
         
@@ -119,7 +134,7 @@ public class Preferences {
         }
         p.ident = host + "/" + System.getProperty("user.name");
         p.version = 1;
-        p.theme = "Windows";
+        p.theme = "Metal";
         p.inputFolders = new String[]{
             Configuration.LOCAL_PATH + "default_input" + File.separator
         };
@@ -145,9 +160,13 @@ public class Preferences {
         return p;
     }
 
+    /**
+     * Retorna o texto "Preferências" seguido da string Ident (HOST/USUÁRIO)
+     * @return "Preferências - HOST/USUÁRIO"
+     */
     @Override
     public String toString() {
-        return "Preferences{" + "ident=" + ident + ", version=" + version + ", theme=" + theme + ", defaultSource=" + defaultSource + ", databaseBackup=" + Arrays.toString(databaseBackups) + ", inputFolder=" + Arrays.toString(inputFolders) + ", outputFolder=" + Arrays.toString(outputFolders) + ", outputCopy=" + Arrays.toString(outputCopies) + '}';
+        return "Preferências - " + ident;
     }
     
     

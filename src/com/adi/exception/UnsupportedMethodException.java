@@ -6,7 +6,7 @@
 package com.adi.exception;
 
 /**
- *
+ * Exceção lançada quando alguma API ou classe não suporta uma determinada operação (não implementada).
  * @author Caique
  */
 public class UnsupportedMethodException extends RuntimeException {

@@ -6,7 +6,8 @@
 package com.adi.instance.model;
 
 /**
- *
+ * Classe que representa um endereço de origem e sua API.
+ * <br>Inclui URL, métodos suportados (pesquisa de posts, tags, etc), tipos suportados (XML/JSON) e demais endereços.
  * @author Caique
  */
 public class Source {
@@ -221,6 +222,10 @@ public class Source {
         return false;
     }
     
+    /**
+     * Retorna a source padrão (Danbooru API via http://hijiribe.donmai.us), com suporte a posts e resultados em JSON ou XML.
+     * @return 
+     */
     public static Source defaultSource(){
         Source s = new Source();
         
@@ -246,6 +251,10 @@ public class Source {
         return s;
     }
 
+    /**
+     * Retorna o nome da source.
+     * @return Nome (ex.: Danbooru)
+     */
     @Override
     public String toString() {
         return name;

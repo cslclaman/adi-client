@@ -21,15 +21,6 @@ import java.net.URL;
  * @author Caique
  */
 public class Search {
-    
-    public static final int SEARCH_BY_RAW =   0;
-    public static final int SEARCH_BY_ID =    1;
-    public static final int SEARCH_BY_TAGS =  2;
-    public static final int SEARCH_BY_MD5 =   3;
-    
-    public static final int SEARCH_POSTS =  10;
-    public static final int SEARCH_TAGS =   20;
-    
     private static final int FORMAT_NULL =  0;
     public static final int FORMAT_JSON =   1;
     public static final int FORMAT_XML =    2;
@@ -41,11 +32,13 @@ public class Search {
     
     private Searchable[] results;
     private final Source source;
-    private int typeSearch;
+    private SearchTypeInstance typeInstance;
+    private SearchTypeParameter typeParam;
     private int format;
 
     public Search(Source source) {
-        this.typeSearch = SEARCH_POSTS + SEARCH_BY_RAW;
+        this.typeInstance = SearchTypeInstance.POSTS;
+        this.typeParam = SearchTypeParameter.BY_RAW;
         this.source = source;
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();
@@ -64,7 +57,8 @@ public class Search {
     }
     
     public Search() {
-        this.typeSearch = SEARCH_POSTS + SEARCH_BY_RAW;
+        this.typeInstance = SearchTypeInstance.POSTS;
+        this.typeParam = SearchTypeParameter.BY_RAW;
         source = Source.defaultSource();
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();
@@ -103,22 +97,23 @@ public class Search {
         }
     }
     
-    public void setTypeSearch(int type) {
-        this.typeSearch = type;
+    public void setTypeSearch(SearchTypeInstance typeInstance, SearchTypeParameter typeParam) {
+        this.typeInstance = typeInstance;
+        this.typeParam = typeParam;
         
-        switch ((type / 10) * 10){
-            case SEARCH_POSTS:
+        switch (typeInstance){
+            case POSTS:
                 if (!source.searchesPosts()){
                     throw new UnsupportedMethodException ("Busca por posts não suportada por esse endereço");
                 } else {
-                    switch (type % 10){
-                        case SEARCH_BY_ID:
+                    switch (typeParam){
+                        case BY_ID:
                             queryUrl = source.getPostsIdQuery();
                             break;
-                        case SEARCH_BY_MD5:
+                        case BY_MD5:
                             queryUrl = source.getPostsMd5Query();
                             break;
-                        case SEARCH_BY_TAGS:
+                        case BY_TAGS:
                             queryUrl= source.getPostsTagsQuery();
                             break;
                         default:
@@ -133,12 +128,12 @@ public class Search {
         }
     }
 
-    public int getSearchTypeParameter(){
-        return typeSearch % 10;
+    public SearchTypeParameter getSearchTypeParameter(){
+        return typeParam;
     }
     
-    public int getSearchTypeInstance(){
-        return typeSearch / 10 * 10;
+    public SearchTypeInstance getSearchTypeInstance(){
+        return typeInstance;
     }
     
     public void setQuery(String query) {
@@ -174,21 +169,36 @@ public class Search {
                 searchJson(url);
                 break;
             case FORMAT_XML:
-                throw new UnsupportedOperationException("XML não implementado");
+                searchXml(url);
+                break;
             default:
                 throw new UnspecifiedParameterException("Formato de arquivo da ADI não especificado");
         }
     }
     
+    /**
+     * Será alterado em uma atualização futura para usar método {@link Searchable#getInstance }
+     * @param search
+     * @throws IOException 
+     */
     private void searchJson(URL search) throws IOException{
         Gson parser = new Gson();
         HttpURLConnection cn = (HttpURLConnection)search.openConnection();
         InputStreamReader r = new InputStreamReader(cn.getInputStream());
         
-        if (getSearchTypeInstance() == SEARCH_POSTS){
+        //
+        if (getSearchTypeInstance() == SearchTypeInstance.POSTS){
             results = parser.fromJson(r, DanbooruPost[].class);
         }
         
         r.close();
+    }
+    
+    /**
+     * Implementar usando SAX Parser e {@link Searchable#getInstance }
+     * @param search
+     */
+    private void searchXml(URL search) {
+        throw new UnsupportedOperationException("XML não implementado - URL " + search.toString());
     }
 }

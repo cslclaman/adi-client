@@ -102,6 +102,9 @@ public abstract class Downloader {
             }
         }
         File out = new File(destfile);
+        if (!out.exists()){
+            out.createNewFile();
+        }
         URL url = new URL(fileUrl);
         InputStream is = url.openStream();
         FileOutputStream fos = new FileOutputStream(out);

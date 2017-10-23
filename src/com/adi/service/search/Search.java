@@ -17,14 +17,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- *
+ * Classe de pesquisas na API da Source.
+ * <br>Possui métodos para definir tipos e parâmetros de pesquisa, além de retornar possíveis resultados.
  * @author Caique
  */
 public class Search {
-    private static final int FORMAT_NULL =  0;
-    public static final int FORMAT_JSON =   1;
-    public static final int FORMAT_XML =    2;
-    
     private String baseUrl;
     private String formatUrl;
     private String queryUrl;
@@ -34,66 +31,86 @@ public class Search {
     private final Source source;
     private SearchTypeInstance typeInstance;
     private SearchTypeParameter typeParam;
-    private int format;
+    private SearchFormat format;
 
+    /**
+     * Instancia uma nova classe Search a partir de uma determinada {@link Source}.
+     * <br>Esse construtor inicializa o tipo de pesquisa como pesquisa de Posts ({@link SearchTypeInstance#POSTS})
+     * e sem parâmetros ({@link SearchTypeParameter#BY_RAW }), e define o formato de API conforme o aceitado pela Source
+     * (dando prioridade a JSON).
+     * @param source A origem/API usada.
+     */
     public Search(Source source) {
         this.typeInstance = SearchTypeInstance.POSTS;
         this.typeParam = SearchTypeParameter.BY_RAW;
         this.source = source;
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();
-            format = FORMAT_JSON;
+            format = SearchFormat.FORMAT_JSON;
         } else {
             if (source.supportXML()){
                 this.formatUrl = source.getPostsBaseXML();
-                format = FORMAT_XML;
+                format = SearchFormat.FORMAT_XML;
             } else {
                 this.formatUrl = source.getPostsBase();
-                format = FORMAT_NULL;
+                format = SearchFormat.FORMAT_DEFAULT;
             }
         }
         this.baseUrl = source.getApiUrl();
         this.queryUrl = "";
     }
     
+    /**
+     * Instancia uma nova classe Search a partir da {@link Source} genérica do sistema.
+     * <br>Esse construtor inicializa o tipo de pesquisa como pesquisa de Posts ({@link SearchTypeInstance#POSTS})
+     * e sem parâmetros ({@link SearchTypeParameter#BY_RAW }), e define o formato de API conforme o aceitado pela Source
+     * (dando prioridade a JSON).
+     */
     public Search() {
         this.typeInstance = SearchTypeInstance.POSTS;
         this.typeParam = SearchTypeParameter.BY_RAW;
         source = Source.defaultSource();
         if (source.supportJson()) { 
             this.formatUrl = source.getPostsBaseJson();
-            format = FORMAT_JSON;
+            format = SearchFormat.FORMAT_JSON;
         } else {
             if (source.supportXML()){
                 this.formatUrl = source.getPostsBaseXML();
-                format = FORMAT_XML;
+                format = SearchFormat.FORMAT_XML;
             } else {
                 this.formatUrl = source.getPostsBase();
-                format = FORMAT_NULL;
+                format = SearchFormat.FORMAT_DEFAULT;
             }
         }
         this.baseUrl = source.getApiUrl();
         this.queryUrl = "";
     }
     
-    public void setFormat(int format) {
+    /**
+     * Altera o tipo de formato (XML/JSON) que a API usará.
+     * @param format Formato (conforme
+     * 
+     */
+    public void setFormat(SearchFormat format) {
         this.format = format;
-        if (format == FORMAT_JSON){
-            if (source.supportJson()) { 
-                this.formatUrl = source.getPostsBaseJson();
-            } else {
-                throw new UnsupportedMethodException("API não possui suporte para formato JSON");
-            }
-        } else {
-            if (format == FORMAT_XML){
+        switch (format){
+            case FORMAT_JSON:
+                if (source.supportJson()) { 
+                    this.formatUrl = source.getPostsBaseJson();
+                } else {
+                    throw new UnsupportedMethodException("API não possui suporte para formato JSON");
+                }
+                break;
+            case FORMAT_XML:
                 if (source.supportXML()){
                     this.formatUrl = source.getPostsBaseXML();
                 } else {
                     throw new UnsupportedMethodException("API não possui suporte para formato XML");
                 }
-            } else {
+                break;
+            default:
                 this.formatUrl = source.getPostsBase();
-            }
+                break;
         }
     }
     

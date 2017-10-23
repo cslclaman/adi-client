@@ -11,7 +11,15 @@ package com.adi.service.search;
  */
 public enum SearchFormat {
     FORMAT_DEFAULT  (0, "null"),
+    
+    /**
+     * Indica que resultados serão obtidos como JSON e lidos por meio do Google GSON.
+     */
     FORMAT_JSON     (1, "json"),
+    
+    /**
+     * Indica que resultados serão obtidos como XML e lidos por meio do SAX Parser.
+     */
     FORMAT_XML      (2, "xml");
 
     private int id;

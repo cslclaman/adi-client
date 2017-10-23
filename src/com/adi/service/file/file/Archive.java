@@ -103,11 +103,11 @@ public class Archive extends File {
         }
         
         if (!isDirectory()){
-            extension = getName().substring(getName().lastIndexOf(".") + 1);
+            extension = getName().substring(getName().lastIndexOf(".") + 1).toLowerCase();
 
             boolean validExt = false;
             for (String ext : SUPPORTED_FILE_EXT){
-                if (extension.equalsIgnoreCase(ext)){
+                if (extension.equals(ext.toLowerCase())){
                     validExt = true;
                     break;
                 }
@@ -116,7 +116,17 @@ public class Archive extends File {
             if (!validExt){
                 throw new IOException("File has invalid extension for ADI - " + getPath());
             }
+        } else {
+            extension = "";
         }
+    }
+    
+    /**
+     * Retorna a extensão (tipo) do arquivo.
+     * @return extensão lower-case - ".jpg"
+     */
+    public String getExtension(){
+        return extension;
     }
     
     /**

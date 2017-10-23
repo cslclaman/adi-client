@@ -36,7 +36,7 @@ public interface StatusMonitor {
      * Exemplo: Uma lista com 5000 itens não vai definir o valor máximo de uma barra de progresso como 5000 se a escala for Porcentagem - mas o 5000 tornará-se o equivalente a 100%.
      * @param total O valor máximo do status. (ex.: 5000 para uma lista com 5000 itens)
      */
-    public void setTotal(int total);
+    public void setTotal(long total);
     
     /**
      * Define a posição ou elemento atual do status.
@@ -44,7 +44,7 @@ public interface StatusMonitor {
      * Note que esse valor não é dependente da escala. Ou seja, se quer falar de 50% de uma lista de 5000 itens verificada, não escreva 50, escreva o índice 2500.
      * @param position Inteiro da posição (ex.: índice 425 de uma lista de 5000 itens).
      */
-    public void setActualPosition(int position);
+    public void setActualPosition(long position);
     
     /**
      * Define uma mensagem a ser exibida.
@@ -61,7 +61,7 @@ public interface StatusMonitor {
      * @param position
      * @param msg 
      */
-    public default void setActualPosition(int position, String msg){
+    public default void setActualPosition(long position, String msg){
         setActualPosition(position);
         setMessage(msg);
     }

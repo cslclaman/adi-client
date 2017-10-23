@@ -137,7 +137,8 @@ public abstract class Downloader {
     
     /**
      * Verifica, a partir de um {@link DanbooruPost} e de um {@link Archive}, se é necessário baixar novamente um arquivo.
-     * <br>Usa a MD5 como fator de verificação, mas não baixa caso o Post seja ZIP e o Archive seja WEBM (mesmo que sample).
+     * <br>Usa a MD5 como fator de verificação, mas não baixa caso o Post seja ZIP e o Archive seja WEBM.
+     * <br>A função desse método é verificar se o arquivo está corrompido ou se é uma versão alternativa (sample).
      * @param arc Arquivo a verificar.
      * @param post Post a verificar.
      * @return TRUE se deve ser baixado novamente, FALSE se não precisa/deve.

@@ -38,9 +38,7 @@ public class Archiver {
     public Archiver(String[] inputList, boolean addSubfolders){
         inputs = new LinkedList<>();
         archives = new LinkedList<>();
-        for (String s : inputList){
-            addInput(s, addSubfolders);
-        }
+        addInputList(inputList, addSubfolders);
     }
     
     /**

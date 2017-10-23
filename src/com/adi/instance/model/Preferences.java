@@ -150,7 +150,8 @@ public class Preferences {
         String[] folders = new String[]{
             Configuration.LOCAL_PATH + "default_input" + File.separator,
             Configuration.LOCAL_PATH + "default_output" + File.separator,
-            Configuration.LOCAL_PATH + "default_dbbackup" + File.separator
+            Configuration.LOCAL_PATH + "default_dbbackup" + File.separator,
+            Configuration.LOCAL_PATH + "temp" + File.separator
         };
         for (String folder : folders){
             File f = new File(folder);

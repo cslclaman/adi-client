@@ -39,6 +39,13 @@ public class Configuration {
      */
     public static final String CONFIG_PATH = LOCAL_PATH + "instance" + File.separator;
     
+    /**
+     * Caminho da pasta específica de arquivos temporários do sistema.
+     * <br>Costuma ficar em <code>USUÁRIO/adi/temp</code>
+     * <br>Registra downloads temporários e 
+     */
+    public static final String TEMP_PATH = LOCAL_PATH + "temp" + File.separator;
+    
     private final static Logger LOGGER = Logger.getLogger(Configuration.class.getName());
     
     private Preferences preferences;

@@ -97,6 +97,20 @@ public class Archiver {
         return count;
     }
     
+    /**
+     * Adiciona várias pastas indicadas em um array à lista de pastas de entrada.
+     * @param inputPaths Array com caminhos absolutos das pastas a adicionar
+     * @param addSubfolders Se TRUE, subpastas serão verificadas. Se não, apenas arquivos na raiz serão adicionados.
+     * @return Número de arquivos encontrado nas pastas.
+     */        
+    public final int addInputList(String[] inputPaths, boolean addSubfolders){
+        int count = 0;
+        for (String path : inputPaths){
+            count += addInput(path, addSubfolders);
+        }
+        return count;
+    }
+    
     private void searchDirectoryListRecursive(List<Archive> list, Archive ar){
         if (!list.contains(ar)){
             list.add(ar);

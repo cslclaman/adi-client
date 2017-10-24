@@ -339,7 +339,7 @@ public class Source {
         s.postsTagsQuery = "tags=";
         s.postsIdQuery = "tags=id:";
         s.postsMd5Query = "tags=md5:";
-        s.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXX";
+        s.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
         s.dateLocale = "";
         
         return s;

@@ -151,7 +151,8 @@ public class Preferences {
             Configuration.LOCAL_PATH + "default_input" + File.separator,
             Configuration.LOCAL_PATH + "default_output" + File.separator,
             Configuration.LOCAL_PATH + "default_dbbackup" + File.separator,
-            Configuration.LOCAL_PATH + "temp" + File.separator
+            Configuration.LOCAL_PATH + "temp" + File.separator,
+            Configuration.LOCAL_PATH + "instance" + File.separator
         };
         for (String folder : folders){
             File f = new File(folder);

@@ -21,13 +21,22 @@ public class ConfigurationLoader {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Configuration cf;
         try {
-            Configuration cf = new Configuration(null);
-            Preferences pf = Preferences.defaultPreferences();
-            System.out.println(cf.getSourceByName("Sankaku complex"));
+             cf = new Configuration();
         } catch (IOException ex){
             System.err.println(ex.toString());
+            cf = Configuration.defaults();
+            try {
+                cf.saveConfiguration();
+            } catch (IOException ex2){
+                System.err.println(ex2.toString());
+            }
         }
+        
+        Preferences pf = cf.getPreferences();
+        System.out.println(cf.getSourceByName("Sankaku complex"));
+        System.out.println(cf.getSourceByName("Danbooru"));
     }
     
 }

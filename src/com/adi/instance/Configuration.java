@@ -58,9 +58,27 @@ public class Configuration {
      * @return Configurações padrão do sistema.
      */
     public static Configuration defaults(){
-        return new Configuration(Preferences.defaultPreferences(), new Source[]{Source.defaultSource()}, TagLists.defaultTagLists());
+        return defaults(false);
     }
-
+    
+    /**
+     * Gera uma instância Configuration com configurações padrão.
+     * <br>Carrega as preferências padrão do sistema, juntamente com uma única origem (Danbooru) e tagLists padrão.
+     * @param saveDefaults
+     * @return Configurações padrão do sistema.
+     */
+    public static Configuration defaults(boolean saveDefaults){
+        Configuration config = new Configuration(Preferences.defaultPreferences(), new Source[]{Source.defaultSource()}, TagLists.defaultTagLists());
+        if (saveDefaults){
+            try {
+                config.saveConfiguration();
+            } catch (IOException ex){
+                System.err.println(ex.toString());
+            }
+        }
+        return config;
+    }
+    
     private Configuration(Preferences preferences, Source[] sources, TagLists tagLists) {
         this.preferences = preferences;
         this.sources = sources;

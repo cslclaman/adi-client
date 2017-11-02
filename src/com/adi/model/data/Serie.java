@@ -3,27 +3,27 @@
  * Copyright C.S.L. ClaMAN 2017
  * This code is provided "as is". Modify this thing under your responsability.
  */
-package com.adi.model.info;
+package com.adi.model.data;
 
 import com.adi.data.entity.AdiTag;
 
 /**
- * 
+ *
  * @author Caique
  */
-public class Artista extends Info {
-    private boolean active;
+public class Serie extends Info {
+    private String altName;
 
-    public Artista(AdiTag adiTag) {
+    public Serie(AdiTag adiTag) {
         super(adiTag);
     }
 
-    public boolean isActive() {
-        return active;
+    public String getAltName() {
+        return altName;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setAltName(String altName) {
+        this.altName = altName;
     }
     
     

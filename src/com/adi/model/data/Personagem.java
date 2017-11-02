@@ -3,7 +3,7 @@
  * Copyright C.S.L. ClaMAN 2017
  * This code is provided "as is". Modify this thing under your responsability.
  */
-package com.adi.model.info;
+package com.adi.model.data;
 
 import com.adi.data.entity.AdiTag;
 

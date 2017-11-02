@@ -5,91 +5,27 @@
  */
 package com.adi.data.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 /**
  *
  * @author Caique
  */
-@Entity
-@Table(name = "image", catalog = "adi6_db", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i")})
-public class Image implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
+public class Image {
     private Integer id;
-    
-    @Basic(optional = false)
-    @Column(name = "md5")
     private String md5;
-    
-    @Basic(optional = false)
-    @Column(name = "file_path")
     private String filePath;
-    
-    @Basic(optional = false)
-    @Column(name = "tag_string")
     private String tagString;
-    
-    @Basic(optional = false)
-    @Column(name = "rating")
     private String rating;
-    
-    @Basic(optional = false)
-    @Column(name = "active")
     private boolean active;
-    
-    @Basic(optional = false)
-    @Column(name = "file_size")
     private long fileSize;
-    
-    @Column(name = "file_source")
     private String fileSource;
-    
-    @Basic(optional = false)
-    @Column(name = "creation_date")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-    
-    @Column(name = "last_update")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
-    
-    @Column(name = "source_name")
     private String sourceName;
-    
-    @ManyToMany(mappedBy = "imageList")
     private List<AdiTag> adiTagList;
-    
-    @JoinColumn(name = "primary_source", referencedColumnName = "id")
-    @ManyToOne
     private ImageSource primarySource;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "image")
     private List<ImageSource> imageSourceList;
 
     public Image() {
@@ -183,7 +119,6 @@ public class Image implements Serializable {
         this.sourceName = sourceName;
     }
 
-    @XmlTransient
     public List<AdiTag> getAdiTagList() {
         return adiTagList;
     }
@@ -200,7 +135,6 @@ public class Image implements Serializable {
         this.primarySource = primarySource;
     }
 
-    @XmlTransient
     public List<ImageSource> getImageSourceList() {
         return imageSourceList;
     }

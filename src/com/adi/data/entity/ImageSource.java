@@ -8,106 +8,34 @@ package com.adi.data.entity;
 import com.adi.instance.Configuration;
 import com.adi.instance.model.Source;
 import com.adi.model.source.danbooru.DanbooruPost;
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Classe que representa a origem de uma imagem {@link Image}. Uma imagem pode ter de 0 a N origens, mas toda origem vai ter uma imagem.
  * <br>A origem guarda dados do Post (em imageboards danbooru-like) ou da origem, como ID, data de envio, tags, status (deletada, offline, ativa) e endereço.
  * @author Caique
  */
-@Entity
-@Table(name = "image_source", catalog = "adi6_db", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ImageSource.findAll", query = "SELECT i FROM ImageSource i")})
-public class ImageSource implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @Basic(optional = false)
-    @Column(name = "id")
+public class ImageSource {
     private Integer id;
-    
-    @Basic(optional = false)
-    @Column(name = "source_name")
     private String sourceName;
-    
-    @Basic(optional = false)
-    @Column(name = "source_id")
     private String sourceId;
-    
-    @Column(name = "post_url")
     private String postUrl;
-    
-    @Column(name = "file_url")
     private String fileUrl;
-    
-    @Column(name = "upload_date")
-    @Temporal(TemporalType.TIMESTAMP)
     private Date uploadDate;
-    
-    @Column(name = "md5")
     private String md5;
-    
-    @Basic(optional = false)
-    @Column(name = "file_size")
     private long fileSize;
-    
-    @Column(name = "tag_string")
     private String tagString;
-    
-    @Basic(optional = false)
-    @Column(name = "source_offline")
     private boolean sourceOffline;
-    
-    @Basic(optional = false)
-    @Column(name = "image_deleted")
     private boolean imageDeleted;
-    
-    @Basic(optional = false)
-    @Column(name = "image_censored")
     private boolean imageCensored;
-    
-    @Basic(optional = false)
-    @Column(name = "image_banned")
     private boolean imageBanned;
-    
-    @Column(name = "rating")
     private String rating;
-    
-    @JoinTable(name = "source_tags", joinColumns = {
-        @JoinColumn(name = "image_source", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "tag", referencedColumnName = "id")})
-    @ManyToMany
     private List<Tag> tagList;
-    
-    @OneToMany(mappedBy = "primarySource")
     private List<Image> imageList;
-    
-    @JoinColumn(name = "image", referencedColumnName = "id")
-    @ManyToOne(optional = false)
     private Image image;
 
     /**
@@ -269,7 +197,6 @@ public class ImageSource implements Serializable {
         this.rating = rating;
     }
 
-    @XmlTransient
     public List<Tag> getTagList() {
         return tagList;
     }
@@ -278,7 +205,6 @@ public class ImageSource implements Serializable {
         this.tagList = tagList;
     }
 
-    @XmlTransient
     public List<Image> getImageList() {
         return imageList;
     }

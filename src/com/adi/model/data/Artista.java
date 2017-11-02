@@ -5,8 +5,6 @@
  */
 package com.adi.model.data;
 
-import com.adi.data.entity.AdiTag;
-
 /**
  * 
  * @author Caique

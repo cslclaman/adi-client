@@ -3,7 +3,7 @@
  * Copyright C.S.L. ClaMAN 2017
  * This code is provided "as is". Modify this thing under your responsability.
  */
-package com.adi.data.entity;
+package com.adi.model.data;
 
 import java.util.List;
 

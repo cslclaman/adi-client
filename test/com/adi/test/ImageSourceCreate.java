@@ -5,7 +5,7 @@
  */
 package com.adi.test;
 
-import com.adi.data.entity.ImageSource;
+import com.adi.model.data.ImageSource;
 import com.adi.exception.UnspecifiedParameterException;
 import com.adi.instance.Configuration;
 import com.adi.instance.model.Source;

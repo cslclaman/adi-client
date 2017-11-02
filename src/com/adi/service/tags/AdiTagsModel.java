@@ -5,7 +5,7 @@
  */
 package com.adi.service.tags;
 
-import com.adi.data.entity.AdiTag;
+import com.adi.model.data.AdiTag;
 import com.adi.instance.model.Source;
 import java.util.Collections;
 import java.util.LinkedList;

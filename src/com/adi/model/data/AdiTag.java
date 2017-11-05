@@ -18,8 +18,9 @@ public class AdiTag {
     public static final String TIPO_ITEM = "i";
     public static final String TIPO_SERIE = "c";
     
-    private Integer id;
-    private String type;
+    private int id;
+    private String ident;
+    private String param;
     private String tag;
     private List<Image> imageList;
     private List<Tag> tagList;
@@ -28,50 +29,90 @@ public class AdiTag {
     }
 
     public AdiTag(String type, String tag) {
-        this.type = type;
+        if (type.equalsIgnoreCase("ADI")){
+            ident = "ADI";
+            param = "";
+        } else {
+            this.ident = type.substring(0, 1);
+            if (type.length() > 1){
+                this.param = type.substring(1);
+            } else {
+                this.param = "";
+            }
+        }
         this.tag = tag;
     }
 
     public AdiTag(String adiTag) {
         int ap = adiTag.indexOf("(");
         int fp = adiTag.indexOf(")");
-        
-        if (ap > -1 && fp == ap + 2){
-            this.type = adiTag.substring(ap + 1, fp);
-            this.tag = adiTag.substring(ap + 1, fp);
+        if (ap > -1 && fp > ap + 2){
+            String type = adiTag.substring(ap + 1, fp);
+            if (type.equalsIgnoreCase("ADI")){
+                ident = "ADI";
+                param = "";
+            } else {
+                this.ident = type.substring(0, 1);
+                if (type.length() > 1){
+                    this.param = type.substring(1);
+                } else {
+                    this.param = "";
+                }
+            }
+            this.tag = adiTag.substring(fp + 1);
         }
     }
 
-    public Integer getId() {
+    public AdiTag(String ident, String param, String tag) {
+        this.ident = ident;
+        this.param = param;
+        this.tag = tag;
+    }
+    
+    public boolean isTransient(){
+        return ident.equals("a") || ident.equals("c") || ident.equals("i") || ident.equals("p");
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getType() {
-        return type;
+        return ident + param;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.ident = type.substring(0, 1);
+        if (type.length() > 1){
+            this.param = type.substring(1);
+        } else {
+            this.param = "";
+        }
+    }
+    
+    public void setType(String ident, String param) {
+        this.ident = ident;
+        this.param = param;
     }
     
     public void setType(int type, String source) {
         if (source.equals("Danbooru")){
             switch (type){
                 case 0:
-                    this.type = "i";
+                    this.ident = "i";
                     break;
                 case 1:
-                    this.type = "a";
+                    this.ident = "a";
                     break;
                 case 3:
-                    this.type = "c";
+                    this.ident = "c";
                     break;
                 case 4:
-                    this.type = "p";
+                    this.ident = "p";
                     break;
                 default:
                     break;
@@ -87,6 +128,22 @@ public class AdiTag {
         this.tag = tag;
     }
 
+    public String getIdent() {
+        return ident;
+    }
+
+    public void setIdent(String ident) {
+        this.ident = ident;
+    }
+
+    public String getParameter() {
+        return param;
+    }
+
+    public void setParameter(String param) {
+        this.param = param;
+    }
+    
     public List<Image> getImageList() {
         return imageList;
     }
@@ -105,7 +162,7 @@ public class AdiTag {
 
     @Override
     public String toString() {
-        return "(" + type + ")" + tag;
+        return "(" + ident + param + ")" + tag;
     }
 
     @Override
@@ -125,21 +182,35 @@ public class AdiTag {
             } else {
                 AdiTag a = this;
                 AdiTag b = (AdiTag)obj;
-                return (a.type.equals(b.type) && a.tag.equalsIgnoreCase(b.tag));
+                return (a.getType().equals(b.getType()) && a.tag.equalsIgnoreCase(b.tag));
             }
         }
     }
 
-    public String getPrettyType() {
-        switch (type){
+    public String getPrettyType(){
+        return getPrettyType(ident);
+    }
+    
+    public String getPrettyType(String type) {
+        switch (type.toLowerCase()){
+            case "ADI":
+                return "ADI";
+            case "s":
+                return "Origem";
+            case "r":
+                return "Classif. Etária";
+            case "a":
+                return "Artista";
             case "c":
                 return "Série";
             case "p":
                 return "Personagem";
             case "i":
                 return "Item";
-            case "a":
-                return "Artista";
+            case "n":
+                return "Número de tags" + (param.isEmpty() ? "" : " de " + getPrettyType(param));
+            case "x":
+                return "Observações";
             default:
                 return "";
         }

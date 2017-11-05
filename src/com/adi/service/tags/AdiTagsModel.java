@@ -17,51 +17,55 @@ import java.util.List;
  */
 public class AdiTagsModel {
 //    0º (ADI)
-    private final AdiTagStruct adi;
+    private final AdiTag adi;
 //    1º (s#)
-    private AdiTagStruct source;
+    private AdiTag source;
 //    2º (r) 
-    private AdiTagStruct rating;
+    private AdiTag rating;
 //    3º (a)
-    private List<AdiTagStruct> artists;
+    private List<AdiTag> artists;
 //    4º (c)
-    private List<AdiTagStruct> copyrights;
+    private List<AdiTag> copyrights;
 //    5º (np)#
-    private AdiTagStruct personaCount;
+    private AdiTag personaCount;
 //    6º (p)
-    private List<AdiTagStruct> personas;
+    private List<AdiTag> personas;
 //    7º (i)
-    private List<AdiTagStruct> items;
-    private List<AdiTagStruct> itemsReduced;
+    private List<AdiTag> items;
+    private List<AdiTag> itemsReduced;
 //    8º (h#)
     //private List<AdiTag> groups;
 //    9º (xg)
-    private List<AdiTagStruct> errors;
+    private List<AdiTag> errors;
     
-    private List<AdiTagStruct> tagList;
+    private List<AdiTag> tagList;
     
     public AdiTagsModel(){
         tagList = new LinkedList<>();
-        adi = new AdiTagStruct("ADI");
+        adi = new AdiTag("ADI");
         artists = new LinkedList<>();
         copyrights = new LinkedList<>();
         personas = new LinkedList<>();
-        personaCount = new AdiTagStruct("np", "0");
+        personaCount = new AdiTag("np", "0");
         items = new LinkedList<>();
         itemsReduced = new LinkedList<>();
         errors = new LinkedList<>();
     }
     
+    public void setSource(AdiTag tag){
+        source = tag;
+    }
+    
     public void setSource(String sourceId, String postId){
-        source = new AdiTagStruct("s", sourceId, postId);
+        source = new AdiTag("s", sourceId, postId);
     }
     
     public void setSource(Source s, String postId){
-        source = new AdiTagStruct("s", s.getId(), postId);
+        source = new AdiTag("s", s.getId(), postId);
     }
     
     public void setSource(Source s, int postId){
-        source = new AdiTagStruct("s", s.getId(), String.valueOf(postId));
+        source = new AdiTag("s", s.getId(), String.valueOf(postId));
     }
     
     public String getSourceTag(){
@@ -73,11 +77,11 @@ public class AdiTagsModel {
     }
     
     public String getSourcePost(){
-        return source.getValue();
+        return source.getTag();
     }
     
     public void setRating(String adiRating){
-        rating = new AdiTagStruct("r", adiRating);
+        rating = new AdiTag("r", adiRating);
     }
     
     public String getRatingTag(){
@@ -85,37 +89,41 @@ public class AdiTagsModel {
     }
     
     public String getRating(){
-        return rating.getValue();
+        return rating.getTag();
     }
     
-    private void addSomething(AdiTagStruct a, List<AdiTagStruct> l){
+    private void addSomething(AdiTag a, List<AdiTag> l){
         if (!l.contains(a)){
             l.add(a);
             Collections.sort(l, (o1, o2) -> {
-                return o1.getValue().compareTo(o2.getValue());
+                return o1.getTag().compareTo(o2.getTag());
             });
         }
     }
     
-    private String[] getSomethingTags(List<AdiTagStruct> l){
+    private String[] getSomethingTags(List<AdiTag> l){
         String[] a = new String[l.size()];
         int c = 0;
-        for (AdiTagStruct t : l){
+        for (AdiTag t : l){
             a[c++] = t.toString();
         }
         return a;
     }
     
-    private String getSomethingString(List<AdiTagStruct> l){
+    private String getSomethingString(List<AdiTag> l){
         StringBuilder sb = new StringBuilder();
-        for (AdiTagStruct t : l){
+        for (AdiTag t : l){
             sb.append(t.toString()).append(" ");
         }
         return sb.toString().trim();
     }
     
     public void addArtist(String tag){
-        addSomething(new AdiTagStruct("a", tag), artists);
+        addSomething(new AdiTag("a", tag), artists);
+    }
+    
+    public void addArtist(AdiTag tag){
+        addSomething(tag, artists);
     }
     
     public String[] getArtistTags(){
@@ -127,7 +135,11 @@ public class AdiTagsModel {
     }
     
     public void addCopyright(String tag){
-        addSomething(new AdiTagStruct("c", tag), copyrights);
+        addSomething(new AdiTag("c", tag), copyrights);
+    }
+    
+    public void addCopyright(AdiTag tag){
+        addSomething(tag, copyrights);
     }
     
     public String[] getCopyrightTags(){
@@ -139,11 +151,11 @@ public class AdiTagsModel {
     }
     
     public void setPersonaCount(String count){
-        personaCount = new AdiTagStruct("np", count);
+        personaCount = new AdiTag("np", count);
     }
     
     public void setPersonaCount(int np){
-        personaCount = new AdiTagStruct("np", String.valueOf(np));
+        personaCount = new AdiTag("np", String.valueOf(np));
     }
     
     public String getPersonaCountTag(){
@@ -151,12 +163,17 @@ public class AdiTagsModel {
     }
     
     public String getPersonaCount(){
-        return personaCount.getValue();
+        return personaCount.getTag();
     }
     
     public void addPersona(String tag){
-        addSomething(new AdiTagStruct("p", tag), personas);
-        personaCount = new AdiTagStruct("np", String.valueOf(personas.size()));
+        addSomething(new AdiTag("p", tag), personas);
+        personaCount = new AdiTag("np", String.valueOf(personas.size()));
+    }
+    
+    public void addPersona(AdiTag tag){
+        addSomething(tag, personas);
+        personaCount = new AdiTag("np", String.valueOf(personas.size()));
     }
     
     public String[] getPersonaTags(){
@@ -168,15 +185,25 @@ public class AdiTagsModel {
     }
     
     public void addItem(String tag){
-        AdiTagStruct at = new AdiTagStruct("i", tag);
-        addSomething(at, items);
+        addSomething(new AdiTag("i", tag), items);
+    }
+    
+    public void addItem(AdiTag tag){
+        addSomething(tag, items);
     }
     
     public void addItem(int cat, String tag){
-        AdiTagStruct at = new AdiTagStruct("i", tag);
+        AdiTag at = new AdiTag("i", tag);
         addSomething(at, items);
         if (cat == 2){
             addSomething(at, itemsReduced);
+        }
+    }
+    
+    public void addItem(int cat, AdiTag tag){
+        addSomething(tag, items);
+        if (cat == 2){
+            addSomething(tag, itemsReduced);
         }
     }
     
@@ -189,7 +216,11 @@ public class AdiTagsModel {
     }
                 
     public void addError(String type){
-        addSomething(new AdiTagStruct("x", type), errors);
+        addSomething(new AdiTag("x", type), errors);
+    }
+    
+    public void addError(AdiTag tag){
+        addSomething(tag, errors);
     }
     
     public String[] getErrorTags(){
@@ -203,28 +234,28 @@ public class AdiTagsModel {
     public void addAdiTag(AdiTag tag){
         switch (tag.getType()){
             case AdiTag.TIPO_ARTISTA:
-                addArtist(tag.getTag());
+                addArtist(tag);
                 break;
             case AdiTag.TIPO_SERIE:
-                addCopyright(tag.getTag());
+                addCopyright(tag);
                 break;
             case AdiTag.TIPO_PERSONAGEM:
-                addPersona(tag.getTag());
+                addPersona(tag);
                 break;
             case AdiTag.TIPO_ITEM:
-                addItem(tag.getTag());
+                addItem(tag);
                 break;
             default:
                 break;
         }
     }
     
-    private List<AdiTagStruct> getTagList(boolean reloadTagList){
+    private List<AdiTag> getTagList(boolean reloadTagList){
         return getTagList(reloadTagList, "anpi");
     }
     
-    private List<AdiTagStruct> getTagList(boolean reloadTagList, String add){
-        List<AdiTagStruct> tl = new LinkedList<>();
+    private List<AdiTag> getTagList(boolean reloadTagList, String add){
+        List<AdiTag> tl = new LinkedList<>();
         add = add.toLowerCase();
         tl.add(adi);
         tl.add(source);
@@ -272,65 +303,4 @@ public class AdiTagsModel {
         } 
         return ts;
     }
-    
-    private class AdiTagStruct{
-        private final String identifier;
-        private final String parameter;
-        private final String value;
-
-        /**
-         * (idenfifier)
-         * - ex. (ADI)
-         * @param identifier
-         */
-        public AdiTagStruct(String identifier) {
-            this.identifier = identifier;
-            this.parameter = "";
-            this.value = "";
-        }
-        
-        /**
-         * (identifier)value
- - ex. (r)tlb (a)asanagi (c)touhou (np)1 (p)flandre_scarlet (i)vampire (x)g
-         * @param identifier
-         * @param atribute 
-         */
-        public AdiTagStruct(String identifier, String atribute) {
-            this.identifier = identifier;
-            this.parameter = "";
-            this.value = atribute;
-        }
-
-        /**
-         * (identifier parameter)value 
- - ex. (sd)678530 (fc)x
-         * @param identifier
-         * @param parameter
-         * @param atribute 
-         */
-        public AdiTagStruct(String identifier, String parameter, String atribute) {
-            this.identifier = identifier;
-            this.parameter = parameter;
-            this.value = atribute;
-        }
-        
-        @Override
-        public String toString(){
-            return ("(" + identifier + parameter + ")" + value);
-        }
-
-        public String getIdentifier() {
-            return identifier;
-        }
-
-        public String getParameter() {
-            return parameter;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-    
-    
 }

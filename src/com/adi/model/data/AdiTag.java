@@ -5,6 +5,7 @@
  */
 package com.adi.model.data;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,16 +20,22 @@ public class AdiTag {
     public static final String TIPO_SERIE = "c";
     
     private int id;
+    private String type;
     private String ident;
     private String param;
+    
+    @SerializedName(value = "name")
     private String tag;
     private List<Image> imageList;
     private List<Tag> tagList;
     
     public AdiTag() {
+        ident = "";
+        param = "";
     }
 
     public AdiTag(String type, String tag) {
+        this.type = type;
         if (type.equalsIgnoreCase("ADI")){
             ident = "ADI";
             param = "";
@@ -67,6 +74,20 @@ public class AdiTag {
         this.ident = ident;
         this.param = param;
         this.tag = tag;
+    }
+    
+    private void initType(){
+        if (type.equalsIgnoreCase("ADI")){
+            ident = "ADI";
+            param = "";
+        } else {
+            this.ident = type.substring(0, 1);
+            if (type.length() > 1){
+                this.param = type.substring(1);
+            } else {
+                this.param = "";
+            }
+        }
     }
     
     public boolean isTransient(){

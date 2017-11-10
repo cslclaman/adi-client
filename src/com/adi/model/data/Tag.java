@@ -5,6 +5,7 @@
  */
 package com.adi.model.data;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
@@ -13,6 +14,8 @@ import java.util.List;
  */
 public class Tag {
     private Integer id;
+    
+    @SerializedName(value = "name")
     private String tag;
     private String url;
     private List<ImageSource> imageSourceList;

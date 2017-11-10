@@ -24,69 +24,50 @@ public class AdiTag {
     private String ident;
     private String param;
     
-    @SerializedName(value = "name")
+    @SerializedName(value = "name", alternate = {"tag"})
     private String tag;
     private List<Image> imageList;
     private List<Tag> tagList;
     
     public AdiTag() {
-        ident = "";
-        param = "";
+        type = tag = "";
+        initType();
     }
 
     public AdiTag(String type, String tag) {
         this.type = type;
-        if (type.equalsIgnoreCase("ADI")){
-            ident = "ADI";
-            param = "";
-        } else {
-            this.ident = type.substring(0, 1);
-            if (type.length() > 1){
-                this.param = type.substring(1);
-            } else {
-                this.param = "";
-            }
-        }
         this.tag = tag;
+        initType();
     }
 
     public AdiTag(String adiTag) {
         int ap = adiTag.indexOf("(");
         int fp = adiTag.indexOf(")");
         if (ap > -1 && fp > ap + 2){
-            String type = adiTag.substring(ap + 1, fp);
-            if (type.equalsIgnoreCase("ADI")){
-                ident = "ADI";
-                param = "";
-            } else {
-                this.ident = type.substring(0, 1);
-                if (type.length() > 1){
-                    this.param = type.substring(1);
-                } else {
-                    this.param = "";
-                }
-            }
-            this.tag = adiTag.substring(fp + 1);
+            type = adiTag.substring(ap + 1, fp);
+            tag = adiTag.substring(fp + 1);
+            initType();
         }
     }
 
     public AdiTag(String ident, String param, String tag) {
         this.ident = ident;
         this.param = param;
+        this.type = ident + param;
         this.tag = tag;
     }
     
     private void initType(){
-        if (type.equalsIgnoreCase("ADI")){
-            ident = "ADI";
-            param = "";
-        } else {
-            this.ident = type.substring(0, 1);
-            if (type.length() > 1){
-                this.param = type.substring(1);
+        if (!type.isEmpty()){
+            if (type.equalsIgnoreCase("ADI")){
+                ident = "ADI";
+                param = "";
             } else {
-                this.param = "";
+                ident = type.substring(0, 1);
+                param = type.substring(1);
             }
+        } else {
+            ident = param = "";
         }
     }
     
@@ -103,42 +84,34 @@ public class AdiTag {
     }
     
     public String getType() {
-        return ident + param;
+        return type;
     }
 
     public void setType(String type) {
-        this.ident = type.substring(0, 1);
-        if (type.length() > 1){
-            this.param = type.substring(1);
-        } else {
-            this.param = "";
-        }
-    }
-    
-    public void setType(String ident, String param) {
-        this.ident = ident;
-        this.param = param;
+        this.type = type;
+        initType();
     }
     
     public void setType(int type, String source) {
         if (source.equals("Danbooru")){
             switch (type){
                 case 0:
-                    this.ident = "i";
+                    this.type = "i";
                     break;
                 case 1:
-                    this.ident = "a";
+                    this.type = "a";
                     break;
                 case 3:
-                    this.ident = "c";
+                    this.type = "c";
                     break;
                 case 4:
-                    this.ident = "p";
+                    this.type = "p";
                     break;
                 default:
                     break;
             }
         }
+        initType();
     }
 
     public String getTag() {
@@ -183,7 +156,7 @@ public class AdiTag {
 
     @Override
     public String toString() {
-        return "(" + ident + param + ")" + tag;
+        return "(" + type + ")" + tag;
     }
 
     @Override
@@ -203,7 +176,7 @@ public class AdiTag {
             } else {
                 AdiTag a = this;
                 AdiTag b = (AdiTag)obj;
-                return (a.getType().equals(b.getType()) && a.tag.equalsIgnoreCase(b.tag));
+                return (a.type.equals(b.type) && a.tag.equalsIgnoreCase(b.tag));
             }
         }
     }

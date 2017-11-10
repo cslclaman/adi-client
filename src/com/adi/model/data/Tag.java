@@ -15,7 +15,7 @@ import java.util.List;
 public class Tag {
     private Integer id;
     
-    @SerializedName(value = "name")
+    @SerializedName(value = "name", alternate = {"tag"})
     private String tag;
     private String url;
     private List<ImageSource> imageSourceList;

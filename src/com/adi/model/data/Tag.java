@@ -5,6 +5,7 @@
  */
 package com.adi.model.data;
 
+import com.adi.service.function.StringTag;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
@@ -24,13 +25,14 @@ public class Tag {
     public Tag() {
     }
 
-    public Tag(Integer id) {
-        this.id = id;
+    public Tag(String tag) {
+        this.tag = tag;
+        this.url = StringTag.urlify(tag);
     }
 
-    public Tag(Integer id, String tag) {
-        this.id = id;
+    public Tag(String tag, String url) {
         this.tag = tag;
+        this.url = url;
     }
 
     public Integer getId() {

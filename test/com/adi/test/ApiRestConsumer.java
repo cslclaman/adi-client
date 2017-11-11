@@ -26,7 +26,7 @@ public class ApiRestConsumer {
                 .create();
         try {
             
-            URL uAdiTags = new URL("http://localhost:5000/aditag?limit=100&page=7");
+            URL uAdiTags = new URL("http://localhost:5000/aditag?limit=100");
             AdiTag[] lista = parser.fromJson(new InputStreamReader(uAdiTags.openStream()), AdiTag[].class);
             //for (Tag i : lista){
             for (AdiTag i : lista){

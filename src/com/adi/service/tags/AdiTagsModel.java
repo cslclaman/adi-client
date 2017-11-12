@@ -113,12 +113,8 @@ public class AdiTagsModel {
         source = new AdiTag("s", sourceId, postId);
     }
     
-    public void setSource(Source s, String postId){
-        source = new AdiTag("s", s.getId(), postId);
-    }
-    
-    public void setSource(Source s, int postId){
-        source = new AdiTag("s", s.getId(), String.valueOf(postId));
+    public void setSource(String sourceId, int postId){
+        source = new AdiTag("s", sourceId, String.valueOf(postId));
     }
     
     public String getSourceTag(){

@@ -105,10 +105,6 @@ public class AdiTagsModel {
         }
     }
     
-    public void setSource(AdiTag tag){
-        source = tag;
-    }
-    
     public void setSource(String sourceId, String postId){
         source = new AdiTag("s", sourceId, postId);
     }

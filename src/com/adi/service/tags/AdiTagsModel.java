@@ -68,39 +68,42 @@ public class AdiTagsModel {
         for (String name : tags){
             name = name.trim();
             if (AdiTag.isValid(name)){
-                AdiTag tag = new AdiTag(name);
-                switch (tag.getTypeIdent()){
-                    //(ADI) (s1)2 (r)1 (a)1 (c)1 (np)1 (p)1 (i)1 (x)1
-                    case "s":
-                        source = tag;
-                        break;
-                    case "r":
-                        rating = tag;
-                        break;
-                    case "a":
-                        artists.add(tag);
-                        break;
-                    case "c":
-                        copyrights.add(tag);
-                        break;
-                    case "n":
-                        personaCount = tag;
-                        break;
-                    case "p":
-                        personas.add(tag);
-                        break;
-                    case "i":
-                        items.add(tag);
-                        break;
-                    case "x":
-                        errors.add(tag);
-                        break;
-                    default:
-                        break;
-                }
+                new AdiTag(name);
+                addAdiTag(adi);
             }
         }
         getTagList(true);
+    }
+    
+    public void addAdiTag(AdiTag tag){
+        switch (tag.getTypeIdent()){
+            case "s":
+                source = tag;
+                break;
+            case "r":
+                rating = tag;
+                break;
+            case "a":
+                artists.add(tag);
+                break;
+            case "c":
+                copyrights.add(tag);
+                break;
+            case "n":
+                personaCount = tag;
+                break;
+            case "p":
+                personas.add(tag);
+                break;
+            case "i":
+                items.add(tag);
+                break;
+            case "x":
+                errors.add(tag);
+                break;
+            default:
+                break;
+        }
     }
     
     public void setSource(AdiTag tag){

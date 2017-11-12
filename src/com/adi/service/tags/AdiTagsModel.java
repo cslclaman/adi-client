@@ -68,8 +68,7 @@ public class AdiTagsModel {
         for (String name : tags){
             name = name.trim();
             if (AdiTag.isValid(name)){
-                new AdiTag(name);
-                addAdiTag(adi);
+                addAdiTag(new AdiTag(name));
             }
         }
         getTagList(true);
@@ -283,25 +282,6 @@ public class AdiTagsModel {
     
     public String getErrorString(){
         return getSomethingString(errors);
-    }
-    
-    public void addAdiTag(AdiTag tag){
-        switch (tag.getType()){
-            case AdiTag.TIPO_ARTISTA:
-                addArtist(tag);
-                break;
-            case AdiTag.TIPO_SERIE:
-                addCopyright(tag);
-                break;
-            case AdiTag.TIPO_PERSONAGEM:
-                addPersona(tag);
-                break;
-            case AdiTag.TIPO_ITEM:
-                addItem(tag);
-                break;
-            default:
-                break;
-        }
     }
     
     private List<AdiTag> getTagList(boolean reloadTagList){

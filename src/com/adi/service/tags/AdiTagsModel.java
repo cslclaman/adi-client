@@ -6,7 +6,6 @@
 package com.adi.service.tags;
 
 import com.adi.model.data.AdiTag;
-import com.adi.instance.model.Source;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,22 +82,39 @@ public class AdiTagsModel {
                 rating = tag;
                 break;
             case "a":
-                artists.add(tag);
+                if (!artists.contains(tag)){
+                    artists.add(tag);
+                }
                 break;
             case "c":
-                copyrights.add(tag);
+                if (!copyrights.contains(tag)){
+                    copyrights.add(tag);
+                }
                 break;
             case "n":
-                personaCount = tag;
+                switch(tag.getTypeParameter()){
+                    case "p":
+                        personaCount = tag;
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case "p":
-                personas.add(tag);
+                if (!personas.contains(tag)){
+                    personas.add(tag);
+                    personaCount.setTag(String.valueOf(personas.size()));
+                }
                 break;
             case "i":
-                items.add(tag);
+                if (!items.contains(tag)){
+                    items.add(tag);
+                }
                 break;
             case "x":
-                errors.add(tag);
+                if (!errors.contains(tag)){
+                    errors.add(tag);
+                }
                 break;
             default:
                 break;
@@ -121,12 +137,8 @@ public class AdiTagsModel {
         rating = new AdiTag("r", adiRating);
     }
     
-    public String getRatingTag(){
-        return rating.toString();
-    }
-    
-    public String getRating(){
-        return rating.getTag();
+    public AdiTag getRating(){
+        return rating;
     }
     
     private void addSomething(AdiTag a, List<AdiTag> l){
@@ -159,28 +171,12 @@ public class AdiTagsModel {
         addSomething(new AdiTag("a", tag), artists);
     }
     
-    public void addArtist(AdiTag tag){
-        addSomething(tag, artists);
-    }
-    
-    public String[] getArtistTags(){
-        return getSomethingTags(artists);
-    }
-    
     public String getArtistString(){
         return getSomethingString(artists);
     }
     
     public void addCopyright(String tag){
         addSomething(new AdiTag("c", tag), copyrights);
-    }
-    
-    public void addCopyright(AdiTag tag){
-        addSomething(tag, copyrights);
-    }
-    
-    public String[] getCopyrightTags(){
-        return getSomethingTags(copyrights);
     }
     
     public String getCopyrightString(){
@@ -195,26 +191,13 @@ public class AdiTagsModel {
         personaCount = new AdiTag("np", String.valueOf(np));
     }
     
-    public String getPersonaCountTag(){
-        return personaCount.toString();
-    }
-    
-    public String getPersonaCount(){
-        return personaCount.getTag();
+    public AdiTag getPersonaCount(){
+        return personaCount;
     }
     
     public void addPersona(String tag){
         addSomething(new AdiTag("p", tag), personas);
-        personaCount = new AdiTag("np", String.valueOf(personas.size()));
-    }
-    
-    public void addPersona(AdiTag tag){
-        addSomething(tag, personas);
-        personaCount = new AdiTag("np", String.valueOf(personas.size()));
-    }
-    
-    public String[] getPersonaTags(){
-        return getSomethingTags(personas);
+        
     }
     
     public String getPersonaString(){
@@ -237,31 +220,12 @@ public class AdiTagsModel {
         }
     }
     
-    public void addItem(int cat, AdiTag tag){
-        addSomething(tag, items);
-        if (cat == 2){
-            addSomething(tag, itemsReduced);
-        }
-    }
-    
-    public String[] getItemTags(){
-        return getSomethingTags(items);
-    }
-    
     public String getItemString(){
         return getSomethingString(items);
     }
                 
     public void addError(String type){
         addSomething(new AdiTag("x", type), errors);
-    }
-    
-    public void addError(AdiTag tag){
-        addSomething(tag, errors);
-    }
-    
-    public String[] getErrorTags(){
-        return getSomethingTags(errors);
     }
     
     public String getErrorString(){
@@ -300,11 +264,6 @@ public class AdiTagsModel {
             tagList = tl;
         }
         return tl;
-    }
-    
-    public String[] getTagArray(){
-        if (tagList.isEmpty()) getTagList(true);
-        return getSomethingTags(tagList);
     }
     
     public String getTagString(){

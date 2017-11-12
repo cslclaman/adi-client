@@ -98,8 +98,11 @@ public class ApiRestTagCreator {
                                     System.out.println("Tag created: " + tag.getId() + " - " + tag.getTag());
                                 } else {
                                     System.out.println(con.getResponseCode() + " - " + con.getResponseMessage());
+                                    tag = null;
                                 }
                             }
+                            if (tag != null)
+                                System.out.println(tag.getAdiTag());
                         } catch (IOException ex){
                             System.err.println(ex.getMessage());    
                         }

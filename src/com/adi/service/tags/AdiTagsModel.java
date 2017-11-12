@@ -52,6 +52,56 @@ public class AdiTagsModel {
         errors = new LinkedList<>();
     }
     
+    public AdiTagsModel(String tagString){
+        tagList = new LinkedList<>();
+        artists = new LinkedList<>();
+        copyrights = new LinkedList<>();
+        personas = new LinkedList<>();
+        items = new LinkedList<>();
+        itemsReduced = new LinkedList<>();
+        errors = new LinkedList<>();
+        adi = new AdiTag("ADI");
+        personaCount = new AdiTag("np", "0");
+        
+        String[] tags = tagString.split(" ");
+        for (String name : tags){
+            name = name.trim();
+            if (AdiTag.isValid(name)){
+                AdiTag tag = new AdiTag(name);
+                switch (tag.getTypeIdent()){
+                    //(ADI) (s1)2 (r)1 (a)1 (c)1 (np)1 (p)1 (i)1 (x)1
+                    case "s":
+                        source = tag;
+                        break;
+                    case "r":
+                        rating = tag;
+                        break;
+                    case "a":
+                        artists.add(tag);
+                        break;
+                    case "c":
+                        copyrights.add(tag);
+                        break;
+                    case "n":
+                        personaCount = tag;
+                        break;
+                    case "p":
+                        personas.add(tag);
+                        break;
+                    case "i":
+                        items.add(tag);
+                        break;
+                    case "x":
+                        errors.add(tag);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        getTagList(true);
+    }
+    
     public void setSource(AdiTag tag){
         source = tag;
     }
@@ -73,7 +123,7 @@ public class AdiTagsModel {
     }
     
     public String getSourceId(){
-        return source.getParameter();
+        return source.getTypeParameter();
     }
     
     public String getSourcePost(){

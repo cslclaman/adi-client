@@ -175,7 +175,7 @@ public class Archive extends File {
             if (name.startsWith("(s") || name.startsWith("(ADI)")){
                 AdiTagsModel model = new AdiTagsModel(name);
                 searchTypeName = SEARCH_TYPE_ID;
-                searchQuery = model.getSourcePost();
+                searchQuery = model.getSource().getTag();
             } else {
                 int seq = 0;
                 StringBuilder hash = new StringBuilder();

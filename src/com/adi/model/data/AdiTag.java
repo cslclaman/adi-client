@@ -43,25 +43,28 @@ public class AdiTag {
     public AdiTag(String adiTag) {
         int ap = adiTag.indexOf("(");
         int fp = adiTag.indexOf(")");
-        if (ap > -1 && fp > ap + 2){
+        if (ap > -1 && fp > ap + 1){
             type = adiTag.substring(ap + 1, fp);
             tag = adiTag.substring(fp + 1);
-            initType();
+        } else {
+            type = adiTag;
+            tag = "";
         }
+        initType();
     }
 
     public AdiTag(String ident, String param, String tag) {
-        this.ident = ident;
-        this.param = param;
         this.type = ident + param;
         this.tag = tag;
+        this.ident = ident;
+        this.param = param;
     }
     
     public static boolean isValid(String tag){
         if (!tag.isEmpty()){
             //\(([sacipnx])(.?.?)\)([\(\)a-zA-Z0-9_\+\-]+)?
             //G1 - Ident  G2 - Param  G3 - Value
-            return tag.matches("\\(([sacipnx])(.?.?)\\)([\\(\\)a-zA-Z0-9_\\+\\-]+)?");
+            return tag.matches("\\(([sracipnx])(.?.?)\\)([\\(\\)a-zA-Z0-9_\\+\\-]+)?");
         } else {
             return false;
         }
@@ -70,7 +73,7 @@ public class AdiTag {
     private void initType(){
         if (!type.isEmpty()){
             if (type.equalsIgnoreCase("ADI")){
-                ident = "ADI";
+                ident = type;
                 param = "";
             } else {
                 ident = type.substring(0, 1);

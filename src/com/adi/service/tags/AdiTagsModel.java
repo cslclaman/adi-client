@@ -113,16 +113,8 @@ public class AdiTagsModel {
         source = new AdiTag("s", sourceId, String.valueOf(postId));
     }
     
-    public String getSourceTag(){
-        return source.toString();
-    }
-    
-    public String getSourceId(){
-        return source.getTypeParameter();
-    }
-    
-    public String getSourcePost(){
-        return source.getTag();
+    public AdiTag getSource(){
+        return source;
     }
     
     public void setRating(String adiRating){

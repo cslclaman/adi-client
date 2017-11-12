@@ -62,6 +62,7 @@ public class AdiTagsModel {
         errors = new LinkedList<>();
         adi = new AdiTag("ADI");
         personaCount = new AdiTag("np", "0");
+        rating = new AdiTag("r", "qac");
         
         String[] tags = tagString.split(" ");
         for (String name : tags){

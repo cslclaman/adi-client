@@ -57,6 +57,16 @@ public class AdiTag {
         this.tag = tag;
     }
     
+    public static boolean isValid(String tag){
+        if (!tag.isEmpty()){
+            //\(([sacipnx])(.?.?)\)([\(\)a-zA-Z0-9_\+\-]+)?
+            //G1 - Ident  G2 - Param  G3 - Value
+            return tag.matches("\\(([sacipnx])(.?.?)\\)([\\(\\)a-zA-Z0-9_\\+\\-]+)?");
+        } else {
+            return false;
+        }
+    }
+    
     private void initType(){
         if (!type.isEmpty()){
             if (type.equalsIgnoreCase("ADI")){
@@ -122,19 +132,19 @@ public class AdiTag {
         this.tag = tag;
     }
 
-    public String getIdent() {
+    public String getTypeIdent() {
         return ident;
     }
 
-    public void setIdent(String ident) {
+    public void setTypeIdent(String ident) {
         this.ident = ident;
     }
 
-    public String getParameter() {
+    public String getTypeParameter() {
         return param;
     }
 
-    public void setParameter(String param) {
+    public void setTypeParameter(String param) {
         this.param = param;
     }
     

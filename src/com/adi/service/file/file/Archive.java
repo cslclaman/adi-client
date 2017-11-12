@@ -9,7 +9,6 @@ import com.adi.service.function.Hash;
 import com.adi.service.search.Search;
 import com.adi.service.search.SearchTypeParameter;
 import com.adi.service.tags.AdiTagsModel;
-import com.adi.service.tags.AdiTagsParser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -174,7 +173,7 @@ public class Archive extends File {
         
         if (!name.contains(getMd5())){
             if (name.startsWith("(s") || name.startsWith("(ADI)")){
-                AdiTagsModel model = AdiTagsParser.toAdiTags(name);
+                AdiTagsModel model = new AdiTagsModel(name);
                 searchTypeName = SEARCH_TYPE_ID;
                 searchQuery = model.getSourcePost();
             } else {

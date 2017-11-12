@@ -6,6 +6,7 @@
 package com.adi.model.source.danbooru;
 
 import com.adi.model.source.DanbooruModel;
+import com.adi.model.source.Post;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -13,27 +14,7 @@ import com.google.gson.annotations.SerializedName;
  * <br>Inclui ID, data de criação, MD5, classif. etária, dimensões e URL da imagem, tag strings e flags, dentre outros dados.
  * @author Caique
  */
-public class DanbooruPost implements DanbooruModel {
-    
-    private int id;
-    
-    @SerializedName(value = "created_at", alternate = "created-at")
-    private String createdAt;
-    
-    private String source;
-    
-    private String md5;
-    
-    private String rating;
-    
-    @SerializedName(value = "image_width", alternate = "image-width")
-    private int imageWidth;
-    
-    @SerializedName(value = "image_height", alternate = "image-height")
-    private int imageHeight;
-    
-    @SerializedName(value = "tag_string", alternate = "tag-string")
-    private String tagString;
+public class DanbooruPost extends Post implements DanbooruModel {
     
     @SerializedName(value = "file_ext", alternate = "file-ext")
     private String fileExt;
@@ -49,9 +30,6 @@ public class DanbooruPost implements DanbooruModel {
     
     @SerializedName(value = "tag_count_copyright", alternate = "tag-count-copyright")
     private int tagCountCopyright;
-    
-    @SerializedName(value = "file_size", alternate = "file-size")
-    private long fileSize;
     
     @SerializedName(value = "is_pending", alternate = "is-pending")
     private boolean pending;
@@ -83,77 +61,6 @@ public class DanbooruPost implements DanbooruModel {
     @SerializedName(value = "tag_string_general", alternate = "tag-string-general")
     private String tagStringGeneral;
     
-    @SerializedName(value = "file_url", alternate = "file-url")
-    private String fileUrl;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getMd5() {
-        return md5;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public int getImageWidth() {
-        return imageWidth;
-    }
-
-    public void setImageWidth(int imageWidth) {
-        this.imageWidth = imageWidth;
-    }
-
-    public int getImageHeight() {
-        return imageHeight;
-    }
-
-    public void setImageHeight(int imageHeight) {
-        this.imageHeight = imageHeight;
-    }
-
-    public String getTagString() {
-        return tagString;
-    }
-    
-    public String[] listTag_string(){
-        return deserialize(tagString);
-    }
-
-    public void setTagString(String tagString) {
-        this.tagString = tagString;
-    }
-
     public String getFileExt() {
         return fileExt;
     }
@@ -192,14 +99,6 @@ public class DanbooruPost implements DanbooruModel {
 
     public void setTagCountCopyright(int tagCountCopyright) {
         this.tagCountCopyright = tagCountCopyright;
-    }
-
-    public long getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(long fileSize) {
-        this.fileSize = fileSize;
     }
 
     public boolean isPending() {
@@ -254,7 +153,7 @@ public class DanbooruPost implements DanbooruModel {
         return tagStringArtist;
     }
 
-    public String[] listTag_string_artist(){
+    public String[] listArtists(){
         return deserialize(tagStringArtist);
     }
     
@@ -291,19 +190,12 @@ public class DanbooruPost implements DanbooruModel {
     }
     
     public String[] listTag_string_general(){
-        return deserialize(tagStringGeneral);
+        
+        return tagStringGeneral.split(" ");
     }
 
     public void setTagStringGeneral(String tagStringGeneral) {
         this.tagStringGeneral = tagStringGeneral;
-    }
-
-    public String getFileUrl() {
-        return fileUrl;
-    }
-
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
     }
 
     public boolean isActive(){
@@ -323,18 +215,13 @@ public class DanbooruPost implements DanbooruModel {
         return "DanbooruPost " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
     }
 
-    private static String[] deserialize(String tagString) {
-        if (tagString.isEmpty()){
-            return new String[0];
-        } else {
-            return tagString.split(" ");
-        }
-    }
-
     @Override
-    public String getSearchableType() {
-        return TYPE_POST;
+    public String[] supportedSourceTypeList() {
+        return new String[]{
+            "Danbooru",
+            "Danbooru2",
+            "Gelbooru",
+            "Moebooru",
+        };
     }
-
-    
 }

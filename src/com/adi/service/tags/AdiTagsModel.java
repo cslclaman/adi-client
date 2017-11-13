@@ -6,6 +6,7 @@
 package com.adi.service.tags;
 
 import com.adi.model.data.AdiTag;
+import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,12 @@ public class AdiTagsModel {
     private List<AdiTag> errors;
     
     private List<AdiTag> tagList;
+    
+    private String folderIndex;
+    private String folderName;
+    private String folderRating;
+    
+    private boolean mature;
     
     public AdiTagsModel(){
         tagList = new LinkedList<>();
@@ -260,6 +267,25 @@ public class AdiTagsModel {
             }
         }
         tl.addAll(errors);
+        
+        mature = rating.getTag().equals("opp") || rating.getTag().equals("pfnv");
+        if (copyrights.size() < 1){
+            folderName = "unassociated";
+            folderIndex = "_";
+        } else {
+            if (copyrights.size() < 2){
+                folderName = copyrights.get(0).getTag();
+                if (folderName.equals("no_copyright")){
+                    folderIndex = "_";
+                } else {
+                    folderIndex = folderName.substring(0, 1);
+                }
+            } else {
+                folderName = "various";
+                folderIndex = "_";
+            }
+        }
+        
         if (reloadTagList){
             tagList = tl;
         }
@@ -280,4 +306,16 @@ public class AdiTagsModel {
         } 
         return ts;
     }
+    
+    public String getFolder(){
+        String f = File.separator;
+        return folderIndex + f + folderName + f + (mature ? "mti" + f : "");
+    }
+    
+    public String getRelativePath(){
+        
+        String f = "$";
+        return folderIndex + f + folderName + f + (mature ? "mti" + f : "");
+    }
+    
 }

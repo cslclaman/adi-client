@@ -29,11 +29,6 @@ public class AdiTag {
     private List<Image> imageList;
     private List<Tag> tagList;
     
-    public AdiTag() {
-        type = tag = "";
-        initType();
-    }
-
     public AdiTag(String type, String tag) {
         this.type = type;
         this.tag = tag;
@@ -136,6 +131,9 @@ public class AdiTag {
     }
 
     public String getTypeIdent() {
+        if (ident == null || ident.isEmpty()){
+            initType();
+        }
         return ident;
     }
 
@@ -144,6 +142,9 @@ public class AdiTag {
     }
 
     public String getTypeParameter() {
+        if (param == null || param.isEmpty()){
+            initType();
+        }
         return param;
     }
 

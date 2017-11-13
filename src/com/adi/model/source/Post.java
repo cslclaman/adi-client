@@ -23,9 +23,6 @@ public class Post implements Searchable {
     @SerializedName(value = "file_url", alternate = "file-url")
     protected String fileUrl;
     
-    @SerializedName(value = "created_at", alternate = "created-at")
-    protected Date createdAt;
-    
     @SerializedName(value = "image_width", alternate = {"width", "image-width"})
     protected int width;
     
@@ -40,6 +37,8 @@ public class Post implements Searchable {
     
     @SerializedName(value = "status", alternate = "status")
     protected String status;
+
+    protected Date creationDate;
 
     public int getId() {
         return id;
@@ -82,11 +81,15 @@ public class Post implements Searchable {
     }
 
     public Date getCreatedAt() {
-        return createdAt;
+        if (creationDate == null){
+            return new Date();
+        } else {
+            return creationDate;
+        }
     }
 
     public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+        this.creationDate = createdAt;
     }
 
     public int getWidth() {
@@ -112,6 +115,14 @@ public class Post implements Searchable {
     public void setTagString(String tagString) {
         this.tagString = tagString;
     }
+    
+    public String[] getTagStringList(){
+        if (tagString.isEmpty()){
+            return new String[0];
+        } else {
+            return tagString.split(" ");
+        }
+    }
 
     public long getFileSize() {
         return fileSize;
@@ -129,14 +140,30 @@ public class Post implements Searchable {
         this.status = status;
     }
     
-    private static String[] deserialize(String tagString) {
-        if (tagString.isEmpty()){
-            return new String[0];
-        } else {
-            return tagString.split(" ");
-        }
+    public boolean isActive() {
+        return status.equals("active");
     }
-
+    
+    public boolean isPending() {
+        return status.equals("pending");
+    }
+    
+    public boolean isFlagged() {
+        return status.equals("flagged");
+    }
+    
+    public boolean isDeleted() {
+        return status.equals("deleted");
+    }
+    
+    public boolean isBanned() {
+        return tagString.contains("banned_artist");
+    }
+    
+    public boolean isCensored(){
+        return false;
+    }
+    
     @Override
     public String[] supportedSourceTypeList() {
         return new String[]{
@@ -150,5 +177,14 @@ public class Post implements Searchable {
     @Override
     public String getSearchableType() {
         return TYPE_POST;
+    }
+    
+    /**
+     * 
+     * @return "Post" e ID, MD5, URL e tag String geral.
+     */
+    @Override
+    public String toString(){
+        return "Post " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
     }
 }

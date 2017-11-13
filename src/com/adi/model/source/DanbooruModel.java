@@ -15,6 +15,9 @@ package com.adi.model.source;
  * @author Caique
  */
 public interface DanbooruModel extends Searchable {
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    public static final String DATE_LOCALE = "en";
+    
     @Override
     public default String[] supportedSourceTypeList() {
         return new String[]{

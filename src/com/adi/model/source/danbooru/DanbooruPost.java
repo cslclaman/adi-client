@@ -8,6 +8,10 @@ package com.adi.model.source.danbooru;
 import com.adi.model.source.DanbooruModel;
 import com.adi.model.source.Post;
 import com.google.gson.annotations.SerializedName;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Representa um post do Danbooru2, conforme retornado pela API.
@@ -61,6 +65,9 @@ public class DanbooruPost extends Post implements DanbooruModel {
     @SerializedName(value = "tag_string_general", alternate = "tag-string-general")
     private String tagStringGeneral;
     
+    @SerializedName(value = "created_at", alternate = "created-at")
+    protected String createdAt;
+    
     public String getFileExt() {
         return fileExt;
     }
@@ -101,6 +108,7 @@ public class DanbooruPost extends Post implements DanbooruModel {
         this.tagCountCopyright = tagCountCopyright;
     }
 
+    @Override
     public boolean isPending() {
         return pending;
     }
@@ -109,6 +117,7 @@ public class DanbooruPost extends Post implements DanbooruModel {
         this.pending = pending;
     }
 
+    @Override
     public boolean isFlagged() {
         return flagged;
     }
@@ -116,7 +125,8 @@ public class DanbooruPost extends Post implements DanbooruModel {
     public void setFlagged(boolean flagged) {
         this.flagged = flagged;
     }
-
+ 
+    @Override
     public boolean isDeleted() {
         return deleted;
     }
@@ -141,6 +151,7 @@ public class DanbooruPost extends Post implements DanbooruModel {
         this.updatedAt = updatedAt;
     }
 
+    @Override
     public boolean isBanned() {
         return banned;
     }
@@ -153,10 +164,6 @@ public class DanbooruPost extends Post implements DanbooruModel {
         return tagStringArtist;
     }
 
-    public String[] listArtists(){
-        return deserialize(tagStringArtist);
-    }
-    
     public void setTagStringArtist(String tagStringArtist) {
         this.tagStringArtist = tagStringArtist;
     }
@@ -165,10 +172,6 @@ public class DanbooruPost extends Post implements DanbooruModel {
         return tagStringCharacter;
     }
 
-    public String[] listTag_string_character(){
-        return deserialize(tagStringCharacter);
-    }
-    
     public void setTagStringCharacter(String tagStringCharacter) {
         this.tagStringCharacter = tagStringCharacter;
     }
@@ -177,10 +180,6 @@ public class DanbooruPost extends Post implements DanbooruModel {
         return tagStringCopyright;
     }
 
-    public String[] listTag_string_copyright(){
-        return deserialize(tagStringCopyright);
-    }
-    
     public void setTagStringCopyright(String tagStringCopyright) {
         this.tagStringCopyright = tagStringCopyright;
     }
@@ -189,39 +188,42 @@ public class DanbooruPost extends Post implements DanbooruModel {
         return tagStringGeneral;
     }
     
-    public String[] listTag_string_general(){
-        
-        return tagStringGeneral.split(" ");
-    }
-
     public void setTagStringGeneral(String tagStringGeneral) {
         this.tagStringGeneral = tagStringGeneral;
     }
 
+    @Override
     public boolean isActive(){
         return !banned && !deleted;
     }
     
+    @Override
     public boolean isCensored(){
         return tagStringGeneral.contains("loli") || tagStringGeneral.contains("shota");
     }
     
+    @Override
+    public Date getCreatedAt() {
+        try {
+            creationDate = new SimpleDateFormat(DATE_FORMAT,Locale.forLanguageTag(DATE_LOCALE)).parse(createdAt);
+        } catch (ParseException ex){
+            System.err.println(ex.toString());
+        }
+        return super.getCreatedAt();
+    }
     /**
      * 
      * @return "DanbooruPost" e ID, MD5, URL e tag String geral.
      */
     @Override
     public String toString(){
-        return "DanbooruPost " + id + " - " + md5 + "\n\t" + fileUrl + "\n\t" + tagString;
+        return "Danbooru" + super.toString();
     }
 
     @Override
     public String[] supportedSourceTypeList() {
         return new String[]{
-            "Danbooru",
             "Danbooru2",
-            "Gelbooru",
-            "Moebooru",
         };
     }
 }

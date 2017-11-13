@@ -8,6 +8,7 @@ package com.adi.service.search;
 import com.adi.exception.UnspecifiedParameterException;
 import com.adi.exception.UnsupportedMethodException;
 import com.adi.instance.model.Source;
+import com.adi.model.source.Post;
 import com.adi.model.source.Searchable;
 import com.adi.model.source.danbooru.DanbooruPost;
 import com.google.gson.Gson;
@@ -203,9 +204,19 @@ public class Search {
         HttpURLConnection cn = (HttpURLConnection)search.openConnection();
         InputStreamReader r = new InputStreamReader(cn.getInputStream());
         
-        //
-        if (getSearchTypeInstance() == SearchTypeInstance.POSTS){
-            results = parser.fromJson(r, DanbooruPost[].class);
+        //java.lang.reflect.Type t = Searchable.getInstance(source.getType(), typeInstance).getClass();
+        //results = parser.fromJson(r, t);
+        
+        switch (typeInstance){
+            case POSTS:
+                if (source.getType().equals("Danbooru2")){
+                    results = parser.fromJson(r, DanbooruPost[].class);
+                } else {
+                    results = parser.fromJson(r, Post[].class);
+                }
+                break;
+            default:
+                break;
         }
         
         r.close();

@@ -5,8 +5,11 @@
  */
 package com.adi.model.source;
 
+import com.adi.instance.Configuration;
+import com.adi.instance.model.TagLists;
 import static com.adi.model.source.Searchable.TYPE_POST;
 import com.google.gson.annotations.SerializedName;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -162,6 +165,56 @@ public class Post implements Searchable {
     
     public boolean isCensored(){
         return false;
+    }
+    
+    public String getAdiRating(){
+        String r = "qac";
+        TagLists tlist;
+        try {
+            tlist = new Configuration().getTagLists();
+        } catch (IOException ex){
+            System.err.println(ex.toString());
+            tlist = TagLists.defaultTagLists();
+        }
+        int pointsQAC = 0;
+        int pointsOPP = 0;
+        int pointsPFNV = 0;
+        for (String tag : getTagStringList()){
+            if (tlist.tagsQACcontainsTag(tag)){
+                pointsQAC ++;
+            }
+            if (tlist.tagsOPPcontainsTag(tag)){
+                pointsOPP ++;
+            }
+            if (tlist.tagsPFNVcontainsTag(tag)){
+                pointsPFNV ++;
+            }
+        }
+        
+        if (rating.equals("s")){
+            if (pointsQAC < 2){
+                r = "tlb";
+            } else {
+                r = "qac";
+                if (pointsOPP > 2){
+                    rating = "opp";
+                }
+            }
+        } else {
+            if (rating.equals("q")){
+                if (pointsPFNV < 1){
+                    rating = "opp";
+                } else {
+                    rating = "pfnv";
+                }
+            } else {
+                if (rating.equals("e")){
+                    rating = "pfnv";
+                }
+            }
+        }
+        
+        return r;
     }
     
     @Override

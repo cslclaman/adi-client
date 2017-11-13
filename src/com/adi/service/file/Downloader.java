@@ -6,6 +6,7 @@
 package com.adi.service.file;
 
 import com.adi.instance.Configuration;
+import com.adi.model.source.Post;
 import com.adi.model.source.danbooru.DanbooruPost;
 import com.adi.service.file.file.Archive;
 import com.adi.view.models.StatusMonitor;
@@ -146,19 +147,24 @@ public abstract class Downloader {
      * @param post Post a verificar.
      * @return TRUE se deve ser baixado novamente, FALSE se não precisa/deve.
      */
-    public static boolean needDownload (Archive arc, DanbooruPost post){
+    public static boolean needDownload (Archive arc, Post post){
         if (post == null){
-            post = new DanbooruPost();
+            post = new Post();
         }
         boolean postHasMd5 = post.getMd5() != null && !post.getMd5().isEmpty();
-        boolean postHasFileExt = post.getFileExt() != null && !post.getFileExt().isEmpty();
+        boolean postIsZip = false;
+        if (post instanceof DanbooruPost){
+            if (((DanbooruPost)post).getFileExt() != null && !((DanbooruPost)post).getFileExt().isEmpty()){
+                postIsZip = ((DanbooruPost)post).getFileExt().equals("zip");
+            }
+        } 
         boolean archiveIsWebm = arc.getExtension().equals("webm");
         boolean archiveQueryEqMd5 = arc.getQueryText().equals(arc.getMd5());
         if (postHasMd5){
             if (arc.getMd5().equals(post.getMd5())){
                 return false;
             } else {
-                return !(postHasFileExt && post.getFileExt().equals("zip") && archiveIsWebm);
+                return !(postIsZip && archiveIsWebm);
             }
         } else {
             return !archiveQueryEqMd5;

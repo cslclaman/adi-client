@@ -7,7 +7,8 @@ package com.adi.model.source;
 
 import com.adi.instance.Configuration;
 import com.adi.instance.model.TagLists;
-import static com.adi.model.source.Searchable.TYPE_POST;
+import com.adi.service.search.SearchTypeInstance;
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.Date;
@@ -38,7 +39,7 @@ public class Post implements Searchable {
     @SerializedName(value = "file_size", alternate = "file-size")
     protected long fileSize;
     
-    @SerializedName(value = "status", alternate = "status")
+    @SerializedName(value = "status")
     protected String status;
 
     protected Date creationDate;
@@ -228,10 +229,10 @@ public class Post implements Searchable {
     }
     
     @Override
-    public String getSearchableType() {
-        return TYPE_POST;
+    public SearchTypeInstance getSearchableType() {
+        return SearchTypeInstance.POSTS;
     }
-    
+
     /**
      * 
      * @return "Post" e ID, MD5, URL e tag String geral.

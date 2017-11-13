@@ -6,6 +6,8 @@
 package com.adi.model.source;
 
 import com.adi.model.source.danbooru.DanbooruPost;
+import com.adi.service.search.SearchTypeInstance;
+import com.google.gson.Gson;
 
 /**
  * Interface para identificar uma classe de entidade pesquisável de uma origem.
@@ -53,7 +55,7 @@ public interface Searchable {
      * Retorna o tipo de entidade representada pela classe (exemplo: Post ou Tag)
      * @return string conforme as constantes {@link #TYPE_POST} e {@link #TYPE_TAG}, por exemplo.
      */
-    public String getSearchableType();
+    public SearchTypeInstance getSearchableType();
     
     /**
      * A partir do tipo de entidade e do nome da origem, cria e retorna uma instância de classe específica.
@@ -72,12 +74,12 @@ public interface Searchable {
      * @param type Tipo da entidade a pesquisar, conforme constantes {@link #TYPE_POST} e {@link #TYPE_TAG}, por exemplo.
      * @return instância de um Searchable do tipo e origem especificado, ou NULL se não existir.
      */
-    public static Searchable getInstance (String source, String type){
+    public static Searchable getInstance (String source, SearchTypeInstance type){
         Searchable[] sl = new Searchable[]{
             new DanbooruPost()
         };
         for (Searchable s : sl){
-            if (s.isSourceSupported(source) && s.getSearchableType().equalsIgnoreCase(type)){
+            if (s.isSourceSupported(source) && s.getSearchableType() == type){
                 return s;
             }
         }

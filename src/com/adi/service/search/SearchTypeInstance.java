@@ -10,8 +10,8 @@ package com.adi.service.search;
  * @author Caique
  */
 public enum SearchTypeInstance {
-    POSTS (1, "posts"),
-    TAGS  (2, "tags");
+    POSTS (1, "post"),
+    TAGS  (2, "tag");
     
     private int id;
     private String name;

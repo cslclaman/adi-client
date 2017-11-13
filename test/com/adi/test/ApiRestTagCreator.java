@@ -9,6 +9,7 @@ import com.adi.exception.UnspecifiedParameterException;
 import com.adi.instance.Configuration;
 import com.adi.instance.model.Source;
 import com.adi.model.data.Tag;
+import com.adi.model.source.Post;
 import com.adi.model.source.danbooru.DanbooruPost;
 import com.adi.service.file.Archiver;
 import com.adi.service.file.Downloader;
@@ -40,6 +41,8 @@ public class ApiRestTagCreator {
         Source source = conf.getDefaultSource();
         Search search = new Search(source);
         
+        archiver.removeArchive("C:\\Users\\Caique\\adi\\default_input\\__konjiki_no_yami_to_love_ru_drawn_by_reido1177__59a28e0a166696e35b4ee8257b9ba463.jpg");
+        
         for (Archive a : archiver.getArchiveList()){
             
             search.setSearchType(SearchTypeInstance.POSTS, a.getQueryTypeParameter());
@@ -51,7 +54,7 @@ public class ApiRestTagCreator {
             }
             System.out.println(a.getPath());
             if (search.hasResults()){
-                for (DanbooruPost p : (DanbooruPost[])search.resultList()){
+                for (Post p : (Post[])search.resultList()){
                     if (Downloader.needDownload(a, p)){
                         System.out.println("GO DOWNLOAD NOW!");
                         try {
@@ -63,7 +66,7 @@ public class ApiRestTagCreator {
                     } else {
                         System.out.println("It's fine.");
                     }
-                    for (String t : p.listTag_string()){
+                    for (String t : p.getTagStringList()){
                         //localhost:5000/tag/find?name=monogatari_(series)&adi_tag=show
                         Gson gson = new GsonBuilder()
                                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)

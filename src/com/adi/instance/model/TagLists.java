@@ -25,6 +25,15 @@ public class TagLists {
         this.tagsQAC = tagsQAC;
     }
 
+    public boolean tagsQACcontainsTag(String tag){
+        for (String t : tagsQAC){
+            if (t.equals(tag)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public String[] getTagsOPP() {
         return tagsOPP;
     }
@@ -33,12 +42,30 @@ public class TagLists {
         this.tagsOPP = tagsOPP;
     }
 
+    public boolean tagsOPPcontainsTag(String tag){
+        for (String t : tagsOPP){
+            if (t.equals(tag)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public String[] getTagsPFNV() {
         return tagsPFNV;
     }
 
     public void setTagsPFNV(String[] tagsPFNV) {
         this.tagsPFNV = tagsPFNV;
+    }
+    
+    public boolean tagsPFNVcontainsTag(String tag){
+        for (String t : tagsPFNV){
+            if (t.equals(tag)){
+                return true;
+            }
+        }
+        return false;
     }
     
     /**

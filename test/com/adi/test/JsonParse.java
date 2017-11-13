@@ -34,16 +34,13 @@ public class JsonParse {
         
         for (DanbooruPost p : dt){
             System.out.println(p.toString());
-            System.out.println(Arrays.toString(p.listTag_string()));
-            System.out.println(p.getTagCount() + " " + p.listTag_string().length);
-            System.out.println(Arrays.toString(p.listTag_string_artist()));
-            System.out.println(p.getTagCountArtist()+ " " + p.listTag_string_artist().length);
-            System.out.println(Arrays.toString(p.listTag_string_character()));
-            System.out.println(p.getTagCountCharacter()+ " " + p.listTag_string_character().length);
-            System.out.println(Arrays.toString(p.listTag_string_copyright()));
-            System.out.println(p.getTagCountCopyright()+ " " + p.listTag_string_copyright().length);
-            System.out.println(Arrays.toString(p.listTag_string_general()));
-            System.out.println(p.getTagCountGeneral()+ " " + p.listTag_string_general().length);
+            System.out.println(Arrays.toString(p.getTagStringList()));
+            System.out.println(p.getTagCount() + " " + p.getTagStringList().length);
+            System.out.println(p.getTagCountArtist()+ " " + p.getTagStringArtist());
+            System.out.println(p.getTagCountCharacter()+ " " + p.getTagStringCharacter());
+            System.out.println(p.getTagCountCopyright()+ " " + p.getTagStringCopyright());
+            System.out.println(p.getTagCountGeneral()+ " " + p.getTagStringGeneral());
+            System.out.println(p.getCreatedAt());
         }
     }
     

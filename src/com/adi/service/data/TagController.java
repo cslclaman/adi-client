@@ -24,7 +24,8 @@ public class TagController extends Controller {
     public Tag find(String name){
         Tag tag = null;
         try {
-            HttpURLConnection con = (HttpURLConnection)new URL(baseUrl + "/find?adi_tag=show&name=" + name).openConnection();
+            URL url = new URL(baseUrl + "/find?adi_tag=show&name=" + name);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
             int response = con.getResponseCode();
             
             if (response == HttpURLConnection.HTTP_OK){
@@ -41,7 +42,8 @@ public class TagController extends Controller {
     public Tag create(Tag tag){
         Tag created = null;
         try {
-            HttpURLConnection con = (HttpURLConnection)new URL(baseUrl).openConnection();
+            URL url = new URL(baseUrl);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
             con.setRequestMethod("POST");
             con.setDoOutput(true);
             con.setRequestProperty("Content-Type", "application/json");

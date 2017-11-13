@@ -7,12 +7,9 @@ package com.adi.model.data;
 
 import com.adi.instance.Configuration;
 import com.adi.instance.model.Source;
-import com.adi.model.source.danbooru.DanbooruPost;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.adi.model.source.Post;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Classe que representa a origem de uma imagem {@link Image}. Uma imagem pode ter de 0 a N origens, mas toda origem vai ter uma imagem.
@@ -61,20 +58,15 @@ public class ImageSource {
     /**
      * Cria uma instância a partir de determinado DanbooruPost e Origem.
      * Todos os dados são inicializados a partir desses dois.
-     * @param post DanbooruPost
+     * @param post Post
      * @param source Source (conforme {@link Configuration#getSources()})
      */
-    public ImageSource(DanbooruPost post, Source source){
+    public ImageSource(Post post, Source source){
         sourceName = source.getName();
         sourceId = String.valueOf(post.getId());
         postUrl = source.getHtmlUrl() + post.getId();
         fileUrl = post.getFileUrl();
-        String locale = source.getDateLocale().isEmpty() ? "en" : source.getDateLocale();
-        try {
-            uploadDate = new SimpleDateFormat(source.getDateFormat(), Locale.forLanguageTag(locale)).parse(post.getCreatedAt());
-        } catch (ParseException ex) {
-            uploadDate = null;
-        }
+        uploadDate = post.getCreatedAt();
         md5 = post.getMd5();
         fileSize = post.getFileSize();
         tagString = post.getTagString();

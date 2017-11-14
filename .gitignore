@@ -2,3 +2,4 @@
 /build/
 /dist/
 /nbproject/private/
+hs_err_*

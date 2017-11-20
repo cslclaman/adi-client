@@ -193,24 +193,28 @@ public class Post implements Searchable {
         }
         
         if (rating.equals("s")){
-            if (pointsQAC < 2){
+            if (pointsQAC < 1){
                 r = "tlb";
             } else {
                 r = "qac";
-                if (pointsOPP > 2){
-                    rating = "opp";
+                if (pointsOPP > 1){
+                    r = "opp";
                 }
             }
         } else {
             if (rating.equals("q")){
                 if (pointsPFNV < 1){
-                    rating = "opp";
+                    if (pointsOPP < 1){
+                        r = "qac";
+                    } else {
+                        r = "opp";
+                    }
                 } else {
-                    rating = "pfnv";
+                    r = "pfnv";
                 }
             } else {
-                if (rating.equals("e")){
-                    rating = "pfnv";
+                if (rating.equals("e") == true){
+                    r = "pfnv";
                 }
             }
         }

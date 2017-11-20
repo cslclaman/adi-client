@@ -21,7 +21,6 @@ public abstract class Controller {
         baseUrl = baseUrl.replace("//", "/");
         baseUrl = baseUrl.replace(":/", "://");
         this.baseUrl = baseUrl;
-        System.out.println(baseUrl);
         gson = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat("yyyy-MM-dd HH:mm:ss")

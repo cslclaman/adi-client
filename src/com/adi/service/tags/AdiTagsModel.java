@@ -157,15 +157,6 @@ public class AdiTagsModel {
         }
     }
     
-    private String[] getSomethingTags(List<AdiTag> l){
-        String[] a = new String[l.size()];
-        int c = 0;
-        for (AdiTag t : l){
-            a[c++] = t.toString();
-        }
-        return a;
-    }
-    
     private String getSomethingString(List<AdiTag> l){
         StringBuilder sb = new StringBuilder();
         for (AdiTag t : l){

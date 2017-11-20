@@ -68,6 +68,7 @@ public class AdiTagStringGenerator {
                         try {
                             Archive b = Downloader.download(source.getDataUrl() + p.getFileUrl(), new ConsoleProgress());
                             System.out.println(b.getPath());
+                            a = b;
                         } catch (IOException ex){
                             System.err.println(ex.getMessage());
                         }
@@ -83,9 +84,14 @@ public class AdiTagStringGenerator {
                             }
                         }
                     }
+                    //Obs.: 220 is the medium limit for file names, but is better to change this to a constant thing.
+                    int nameSize = 220 - modelAdi.getRelativePath().length();
+                    
                     System.out.println(modelAdi.getTagString());
-                    System.out.println(modelAdi.getFolder() + modelAdi.getTagString(150));
-                    System.out.println(modelAdi.getRelativePath());
+                    System.out.println(modelAdi.getFolder() + modelAdi.getTagString(nameSize));
+                    System.out.println(modelAdi.getRelativePath() + modelAdi.getTagString(nameSize) + "." + a.getExtension());
+                    
+                    
                 }
             }
         }

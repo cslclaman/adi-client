@@ -214,9 +214,14 @@ public class Search {
                 } else {
                     results = parser.fromJson(r, Post[].class);
                 }
+                
                 break;
             default:
                 break;
+        }
+        
+        for (Searchable s : results){
+            s.setSourceInstance(source);
         }
         
         r.close();

@@ -205,4 +205,8 @@ public class Archive extends File {
             searchQuery = md5;
         }
     }
+    
+    public String getRelativeFilePath(){
+        return getPath().replace(separator, "$");
+    }
 }

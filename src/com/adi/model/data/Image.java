@@ -37,7 +37,7 @@ public class Image {
     @SerializedName(value = "file_size")
     private long fileSize;
     
-    @SerializedName(value = "file_size")
+    @SerializedName(value = "file_source")
     private String fileSource;
     
     private Date creationDate;
@@ -57,16 +57,16 @@ public class Image {
     }
     
     public Image(Post post, Archive archive, AdiTagsModel tags) {
-        adiTagList = new LinkedList<>();
-        imageSourceList = new LinkedList<>();
         md5 = archive.getMd5();
-        filePath = tags.getRelativePath();
+        filePath = archive.getRelativeFilePath().substring(archive.getRelativeFilePath().indexOf(tags.getRelativePath()));
         tagString = tags.getTagString();
         rating = post.getAdiRating();
         active = true;
         fileSize = archive.length();
-        fileSource = archive.getPath();
+        fileSource = archive.getName();
         sourceName = post.getSourceInstance().getName();
+        adiTagList = new LinkedList<>();
+        imageSourceList = new LinkedList<>();
     }
 
     public Integer getId() {

@@ -6,9 +6,9 @@
 package com.adi.model.source;
 
 import com.adi.instance.Configuration;
+import com.adi.instance.model.Source;
 import com.adi.instance.model.TagLists;
 import com.adi.service.search.SearchTypeInstance;
-import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.Date;
@@ -19,6 +19,8 @@ import java.util.Date;
  * @author Caique
  */
 public class Post implements Searchable {
+    private Source sourceInst;
+    
     protected int id;
     protected String md5;
     protected String source;
@@ -44,6 +46,16 @@ public class Post implements Searchable {
 
     protected Date creationDate;
 
+    @Override
+    public void setSourceInstance(Source source) {
+        sourceInst = source;
+    }
+
+    @Override
+    public Source getSourceInstance() {
+        return sourceInst;
+    }
+    
     public int getId() {
         return id;
     }

@@ -299,13 +299,23 @@ public class AdiTagsModel {
     }
     
     public String getFolder(){
+        return getFolder("");
+    }
+    
+    public String getFolder(String parent){
         String f = File.separator;
-        return folderIndex + f + folderName + f + (mature ? "mti" + f : "");
+        File par = new File(parent);
+        if (folderIndex == null || folderName == null){
+            getTagList(true);
+        }
+        return par.getPath() + f + folderIndex + f + folderName + f + (mature ? "mti" + f : "");
     }
     
     public String getRelativePath(){
-        
         String f = "$";
+        if (folderIndex == null || folderName == null){
+            getTagList(true);
+        }
         return folderIndex + f + folderName + f + (mature ? "mti" + f : "");
     }
     

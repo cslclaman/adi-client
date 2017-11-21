@@ -5,7 +5,10 @@
  */
 package com.adi.model.data;
 
+import com.google.gson.annotations.SerializedName;
+import java.io.File;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 /**
@@ -13,22 +16,50 @@ import java.util.Objects;
  * @author Caique
  */
 public class Image {
+    /*
+    self.__md5 = dict['md5']
+    self.__filePath = dict['file_path']
+    self.__tagString = dict['tag_string']
+    self.__rating = dict['rating']
+    self.__active = dict['active']
+    self.__fileSize = dict['file_size']
+    self.__fileSource = dict['file_source']
+    self.__sourceName = dict['source_name']
+    */
     private Integer id;
+    
     private String md5;
+    
+    @SerializedName(value = "file_path")
     private String filePath;
+    
+    @SerializedName(value = "tag_string")
     private String tagString;
+    
     private String rating;
+    
     private boolean active;
+    
+    @SerializedName(value = "file_size")
     private long fileSize;
+    
+    @SerializedName(value = "file_size")
     private String fileSource;
+    
     private Date creationDate;
+    
     private Date lastUpdate;
+    
+    @SerializedName(value = "source_name")
     private String sourceName;
+    
     private List<AdiTag> adiTagList;
     private ImageSource primarySource;
     private List<ImageSource> imageSourceList;
 
     public Image() {
+        adiTagList = new LinkedList<>();
+        imageSourceList = new LinkedList<>();
     }
 
     public Integer getId() {
@@ -47,8 +78,13 @@ public class Image {
         this.md5 = md5;
     }
 
-    public String getFilePath() {
+    public String getAbstractFilePath() {
         return filePath;
+    }
+    
+    public String getFilePath() {
+        String f = File.separator;
+        return filePath.replaceAll("$", f);
     }
 
     public void setFilePath(String filePath) {
@@ -123,8 +159,8 @@ public class Image {
         return adiTagList;
     }
 
-    public void setAdiTagList(List<AdiTag> adiTagList) {
-        this.adiTagList = adiTagList;
+    public void addAdiTag(AdiTag adiTag) {
+        adiTagList.add(adiTag);
     }
 
     public ImageSource getPrimarySource() {
@@ -139,8 +175,8 @@ public class Image {
         return imageSourceList;
     }
 
-    public void setImageSourceList(List<ImageSource> imageSourceList) {
-        this.imageSourceList = imageSourceList;
+    public void addImageSource(ImageSource imageSource) {
+        imageSourceList.add(imageSource);
     }
 
     @Override

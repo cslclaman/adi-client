@@ -5,6 +5,7 @@
  */
 package com.adi.model.source;
 
+import com.adi.instance.model.Source;
 import com.adi.model.source.danbooru.DanbooruPost;
 import com.adi.service.search.SearchTypeInstance;
 import com.google.gson.Gson;
@@ -85,4 +86,8 @@ public interface Searchable {
         }
         return null;
     }
+    
+    public void setSourceInstance(Source source);
+    
+    public Source getSourceInstance();
 }

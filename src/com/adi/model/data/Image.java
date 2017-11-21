@@ -5,6 +5,9 @@
  */
 package com.adi.model.data;
 
+import com.adi.model.source.Post;
+import com.adi.service.file.file.Archive;
+import com.adi.service.tags.AdiTagsModel;
 import com.google.gson.annotations.SerializedName;
 import java.io.File;
 import java.util.Date;
@@ -16,16 +19,7 @@ import java.util.Objects;
  * @author Caique
  */
 public class Image {
-    /*
-    self.__md5 = dict['md5']
-    self.__filePath = dict['file_path']
-    self.__tagString = dict['tag_string']
-    self.__rating = dict['rating']
-    self.__active = dict['active']
-    self.__fileSize = dict['file_size']
-    self.__fileSource = dict['file_source']
-    self.__sourceName = dict['source_name']
-    */
+    
     private Integer id;
     
     private String md5;
@@ -60,6 +54,19 @@ public class Image {
     public Image() {
         adiTagList = new LinkedList<>();
         imageSourceList = new LinkedList<>();
+    }
+    
+    public Image(Post post, Archive archive, AdiTagsModel tags) {
+        adiTagList = new LinkedList<>();
+        imageSourceList = new LinkedList<>();
+        md5 = archive.getMd5();
+        filePath = tags.getRelativePath();
+        tagString = tags.getTagString();
+        rating = post.getAdiRating();
+        active = true;
+        fileSize = archive.length();
+        fileSource = archive.getPath();
+        sourceName = post.getSourceInstance().getName();
     }
 
     public Integer getId() {
